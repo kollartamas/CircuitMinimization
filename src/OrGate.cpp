@@ -1,6 +1,7 @@
 #include "OrGate.h"
 #include "KetvaltozosKapu.h"
 #include "Kapu.h"
+#include "AndGate.h"
 
 void OrGate::erteketFrissit()
 {
@@ -35,4 +36,12 @@ void OrGate::addToStringPostfix(std::string& dest)
 	inputs[1]->addToStringPostfix(dest);
 	dest += 'v';
 	dest += ' ';
+}
+
+void OrGate::createNegatedTwin()
+{
+	twin = new AndGate(*inputs[0]->getTwin(), *inputs[1]->getTwin());
+	inputs[0]->getTwin()->addOutput(this);
+	inputs[1]->getTwin()->addOutput(this);
+	twin->twin = this;
 }

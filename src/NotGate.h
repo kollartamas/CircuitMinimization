@@ -16,6 +16,9 @@ public:
 
 	void calculateInfixLength();
 	void calculatePrefixLength();
+
+	void createNegatedTwin();
+	void removeNotGate();
 };
 
 #endif

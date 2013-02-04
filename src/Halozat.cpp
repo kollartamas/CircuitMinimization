@@ -1,5 +1,6 @@
 #include <vector>
 #include <queue>
+#include <stack>
 #include <set>
 #include <map>
 #include <cstdlib>
@@ -10,6 +11,8 @@
 #include "NotGate.h"
 #include "AndGate.h"
 #include "OrGate.h"
+
+#include "Quine_McClusky\ImplicantChart.h"
 
 using namespace std;
 
@@ -107,22 +110,6 @@ Halozat::Halozat(unsigned int inputokSzama, unsigned int kapukSzama)
 	output = veletlenRendezett.begin()->second;
 }
 
-Halozat::~Halozat()
-{
-	doForEachGate([] (Kapu* kapu) {delete kapu;});
-}
-
-Input& Halozat::operator[](unsigned int sorszam)
-{
-	return *inputok[sorszam];
-}
-
-void Halozat::setOutput(Kapu* out)
-{
-	this->output = out;
-}
-
-
 void Halozat::doForEachGate( function<void(Kapu*)> funct )
 {
 	queue<Kapu*> ertekelheto;
@@ -141,7 +128,9 @@ void Halozat::doForEachGate( function<void(Kapu*)> funct )
 
 		list<Kapu*> outs = p_aktualisKapu->getOutputs();
 		funct(p_aktualisKapu);
-		for each(Kapu* p_out in outs )
+
+		//for (Kapu* p_out : outs )		// c++11 standard
+		for each(Kapu* p_out in outs )	//VS2010 syntax
 		{
 			if(p_out->incrementElozoekCount(true))
 			{
@@ -149,6 +138,47 @@ void Halozat::doForEachGate( function<void(Kapu*)> funct )
 			}
 		}
 	}
+}
+
+void Halozat::doForEachGateReverse( function<void(Kapu*)> funct )
+{
+	queue<Kapu*> ertekelheto;
+
+	ertekelheto.push(output);
+
+	//olyan sorrendben végezzük a bejárást, hogy minden kapu elõtt bejárjuk az outputjait
+	while(!ertekelheto.empty())
+	{
+		Kapu* p_aktualisKapu = ertekelheto.front();
+		ertekelheto.pop();
+
+		vector<Kapu*> ins = p_aktualisKapu->inputs;
+		funct(p_aktualisKapu);
+
+		//for (Kapu* p_out : outs )		// c++11 standard
+		for each(Kapu* p_in in ins )	//VS2010 syntax
+		{
+			if(p_in->incrementElozoekCount(false))
+			{
+				ertekelheto.push(p_in);
+			}
+		}
+	}
+}
+
+Halozat::~Halozat()
+{
+	doForEachGate([] (Kapu* kapu) {delete kapu;});
+}
+
+Input& Halozat::operator[](unsigned int sorszam)
+{
+	return *inputok[sorszam];
+}
+
+void Halozat::setOutput(Kapu* out)
+{
+	this->output = out;
 }
 
 bool Halozat::kiertekel()
@@ -178,9 +208,9 @@ unsigned int Halozat::calculatePostfixLength()
 std::string Halozat::toStringInfix()
 {
 	string formula;
-unsigned int a=5;
-	formula.reserve( a=calculateInfixLength());
-unsigned int b=7;
+//unsigned int a=5;
+	formula.reserve(calculateInfixLength());
+//unsigned int b=7;
 	output->addToStringInfix(formula);
 	return formula;
 }
@@ -199,4 +229,210 @@ std::string Halozat::toStringPostfix()
 	formula.reserve(calculatePostfixLength());
 	output->addToStringPostfix(formula);
 	return formula;
+}
+
+void Halozat::removeNotGates()
+{
+	list<NotGate*> notGates;
+
+	doForEachGate( [](Kapu* kapu){kapu->createNegatedTwin();} );
+	
+	doForEachGate([](Kapu* kapu){kapu->removeNotGate();} );
+	if(output->getTipus() == Kapu::NOT)
+	{
+		output = output->getTwin()->getTwin();
+	}
+	removeExtraGates();
+	doForEachGate([](Kapu* kapu){kapu->twin=NULL;} );
+}
+
+void Halozat::removeExtraGates()
+{
+	stack<Kapu*> ertekelheto;
+
+	ertekelheto.push(output);
+
+	while(!ertekelheto.empty())
+	{
+		Kapu* p_aktualisKapu = ertekelheto.top();
+		ertekelheto.pop();
+
+		vector<Kapu*> ins = p_aktualisKapu->inputs;
+		p_aktualisKapu->marked = true;
+
+		//for (Kapu* p_out : outs )		// c++11 standard
+		for each(Kapu* p_in in ins )	//VS2010 syntax
+		{
+			if(!p_in->marked)
+			{
+				ertekelheto.push(p_in);
+			}
+		}
+	}
+
+	doForEachGate([](Kapu* kapu){kapu->removeIfNotMarked();});
+	doForEachGate([](Kapu* kapu){kapu->marked = false;});
+
+
+}
+
+void Halozat::minimizeQuineMcClusky()
+{
+	ImplicantChart implicantChart;
+	for each(Implicant implicant in getMintermList())
+	{
+		implicantChart.addMinterm(implicant, true);
+	}
+	doForEachGate([](Kapu* kapu)
+	{
+		if(kapu->tipus!=Kapu::INPUT)
+		{
+			delete kapu;
+		}
+		else
+		{
+			kapu->outputs.clear();
+		}
+	});
+
+	setOutput( buildFromImplicantList(implicantChart.getMinimizedDNF()) );
+}
+
+list<Implicant> Halozat::getMintermList()
+{
+	list<Implicant> mintermList;
+	for each(Implicant implicant in getImplicantList())
+	{
+		list<Implicant> listToAdd(implicant.toMintermList());
+		mintermList.splice(mintermList.end(), listToAdd);
+	}
+	return mintermList;
+}
+
+
+list<Implicant> Halozat::getImplicantList()
+{
+	list<Kapu*> clauseList;
+	listClausesInSubgraph(*output, clauseList);
+	list<Implicant> implicantList;
+	for each(Kapu* clause in clauseList)
+	{
+		implicantList.push_back(getImplicantFromSubgraph(*clause));
+	}
+	return implicantList;
+}
+
+void Halozat::listClausesInSubgraph(Kapu& rootGate, list<Kapu*>& clauseList)
+{
+	for each(Kapu* inputGate in rootGate.inputs)
+	{
+		if(inputGate->tipus == Kapu::OR)
+		{
+			listClausesInSubgraph(*inputGate, clauseList);
+		}
+		else
+		{
+			clauseList.push_back(inputGate);
+		}
+	}
+}
+
+
+Implicant Halozat::getImplicantFromSubgraph(Kapu& rootGate)
+{
+	vector<int> values(inputok.size(), Implicant::DONT_CARE);
+	collectInputsFromSubgraph(rootGate, values);
+	return Implicant(values);
+}
+
+void Halozat::collectInputsFromSubgraph(Kapu& rootGate, std::vector<int>& currentValues)
+{
+	for each(Kapu* inputGate in rootGate.inputs)
+	{
+		switch(inputGate->tipus)
+		{
+			case Kapu::AND:
+				collectInputsFromSubgraph(*inputGate, currentValues);
+				break;
+			case Kapu::INPUT:
+				currentValues[((Input*)inputGate)->id] &= Implicant::TRUE;	//bitwise, mert True:01b False:10b DontCare:11b
+				break;
+			case Kapu::NOT:
+				currentValues[((Input*)(inputGate->inputs[0]))->id] &= Implicant::FALSE;
+				break;
+			/*case Kapu::TRUE:
+				break;
+			case Kapu::FALSE:
+				if(currentValues.empty()){currentValues.push_back(Implicant::INVALID);}
+				else{currentValues[0]=Implicant::INVALID;}
+				break;*/
+			default:
+				throw exception("DNF error");
+		}
+	}
+}
+
+
+Kapu* Halozat::buildFromImplicantList(list<Implicant>& implicantList)
+{
+	if(implicantList.empty())
+	{
+//		return new FalseGate());			TODO
+	}
+
+	list<Implicant>::iterator iter(implicantList.begin());
+	Kapu* topClause = buildFromImplicant(*iter);
+	++iter;
+	for(; iter!=implicantList.end(); ++iter)
+	{
+		topClause = new OrGate(*topClause, *buildFromImplicant(*iter));
+	}
+	return topClause;
+}
+
+Kapu* Halozat::buildFromImplicant(Implicant& implicant)
+{
+	if(implicant.numOfVariables==implicant.numOfDontCares)
+	{
+//		return new TrueGate;		TODO
+	}
+
+	Kapu* topLiteral;
+	unsigned int i=0;
+	for(; i<implicant.values.size(); i++)
+	{
+		switch(implicant.values[i])
+		{
+			case Implicant::TRUE:
+				topLiteral = inputok[i];
+				break;
+			case Implicant::FALSE:
+				topLiteral = new NotGate(*inputok[i]);
+				break;
+			/*case Implicant::INVALID:
+				topLiteral = new FalseGate();		TODO
+				break;*/
+			default:
+				continue;
+		}
+		i++;
+		break;			//TRUE/FALSE esetén break(a ciklusból), különben continue;
+	}
+
+	for(; i<implicant.values.size(); i++)
+	{
+		switch(implicant.values[i])
+		{
+			case Implicant::TRUE:
+				topLiteral = new AndGate(*inputok[i], *topLiteral);
+				break;
+			case Implicant::FALSE:
+				topLiteral = new AndGate(*new NotGate(*inputok[i]), *topLiteral);
+				break;
+			/*case Implicant::INVALID:
+				topLiteral = new AndGate(*new FalseGate(), *topLiteral);		TODO
+				break;*/
+		}
+	}
+	return topLiteral;
 }

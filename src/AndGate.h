@@ -14,6 +14,8 @@ public:
 	void addToStringInfix(std::string& dest);
 	void addToStringPrefix(std::string& dest);
 	void addToStringPostfix(std::string& dest);
+
+	void createNegatedTwin();
 };
 
 #endif

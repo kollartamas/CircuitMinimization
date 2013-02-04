@@ -7,7 +7,7 @@
 
 class Kapu
 {
-protected:
+public:	//protected:
 	enum tipusok {INPUT=0, NOT=1, AND=2, OR=3};
 
 	std::vector<Kapu*> inputs;
@@ -17,6 +17,10 @@ protected:
 
 	unsigned int elozoekCount;	//hány (közvetlenül) megelõzõ kaput jártunk már be
 	unsigned int stringLength;	//csak calculate...Length után tárolja a valódi értéket
+
+	Kapu* twin;	//algoritmusok során ideiglenes kapcsolatok tárolására
+	bool marked;
+
 public:
 	Kapu();
 
@@ -26,7 +30,9 @@ public:
 	unsigned int getStringLength();
 	void addOutput(Kapu* out);
 	const std::list<Kapu*> getOutputs();
-	
+	Kapu* getTwin();
+	void replaceInput(Kapu* original, Kapu* other);
+	virtual void removeNotGate(){};
 	
 	virtual void erteketFrissit() =0;	//kiértékeléshez
 	bool incrementElozoekCount(bool iranyElore);	//inkrementál, return true ha eléri inputs/outputs.lenght-et
@@ -37,6 +43,10 @@ public:
 	virtual void addToStringPostfix(std::string& dest) =0;
 	virtual void calculateInfixLength() =0;
 	virtual void calculatePrefixLength() =0;
+
+	//void removeNotGates();
+	virtual void createNegatedTwin() =0;
+	void removeIfNotMarked();
 };
 
 #endif

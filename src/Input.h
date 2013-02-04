@@ -6,7 +6,7 @@
 
 class Input: public Kapu
 {
-private:
+public://private:
 	unsigned int id;
 public:
 	Input(unsigned int id=0);
@@ -19,6 +19,8 @@ public:
 	void addToStringPostfix(std::string& dest);
 	void calculateInfixLength();
 	void calculatePrefixLength();
+
+	void createNegatedTwin();
 };
 
 #endif
