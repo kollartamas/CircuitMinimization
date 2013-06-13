@@ -1,23 +1,28 @@
 #ifndef NOTGATE_H
 #define NOTGATE_H
 
-#include "Kapu.h"
+#include "Gate.h"
 
-class NotGate : public Kapu
+class NotGate : public Gate
 {
 public:
-	NotGate(Kapu& in);
+	NotGate(GatePtr in);
+	~NotGate();
+	/*void deleteRecursively();*/
 
-	void erteketFrissit();
+	bool getValue();
 
 	void addToStringInfix(std::string& dest);
 	void addToStringPrefix(std::string& dest);
 	void addToStringPostfix(std::string& dest);
 
-	void calculateInfixLength();
-	void calculatePrefixLength();
+	unsigned int getInfixLength();
+	unsigned int getPrefixLength();
 
-	void createNegatedTwin();
+	GatePtr getNegatedTwin();
+	GatePtr getCopyTwin();
+	GatePtr getConstantFreeTwin();
+
 	void removeNotGate();
 };
 

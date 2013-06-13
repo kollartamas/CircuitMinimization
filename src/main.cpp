@@ -1,68 +1,82 @@
-#include "Halozat.h"
-#include "Kapu.h"
+#include "Circuit.h"
+#include "DnfCircuit.h"
 #include "AndGate.h"
 #include "OrGate.h"
 #include "NotGate.h"
+#include "Logger.h"
 
 #include <iostream>
 #include <ctime>
 
 using namespace std;
 
-int main()
+int main(int argc, char** argv)
 {
-	srand((unsigned int)time(NULL));
+	/*bool a = true;
+	time_t seed = 0;
+	while(a)
+	{
+	//srand((unsigned int)time(&seed));
+	//srand(seed = 1370629149);
+	srand(++seed);
+	cout <<"Random seed: "<<seed<<endl;/*
+	
+	//Circuit halozat2(2, 3, true);
+	Circuit halozat1(5, 12, true);
+	DnfCircuit dnf1(halozat1);
+	//cout << halozat1.toStringInfix() << endl;
+	//cout << dnf1.toStringInfix() << endl;
+	DnfCircuit dnf2(dnf1);
+	a = (halozat1 == dnf2);
+	halozat1.simplify();
+	cout << "simplify done" << endl;
+	dnf1.minimizeEspresso();
+	cout << "espresso done" << endl;
+	dnf2.minimizeQuineMcClusky();
+	cout << "QM done" << endl;
+	a = (halozat1 == dnf1) && (halozat1 == dnf2);
+	cout << a << endl;*/
 
-	//manuálisan felépítve:
-	//Halozat halozat(6);
+	{
+	time_t seed;
+	srand((unsigned int)time(&seed));
+	cout <<"Random seed: "<<seed<<endl;
 
-	Kapu *egyik, *masik;
-	/*egyik = new OrGate(halozat[0], halozat[1]);
-	masik = new OrGate(halozat[2], halozat[3]);
+	Circuit original(6, 50, false);
+	cout << original.toStringInfix() << endl;
 
-	egyik = new OrGate(*egyik, *masik);
-	masik = new OrGate(halozat[4], halozat[5]);
-	masik = new AndGate(*egyik, *masik);
-	masik = new NotGate(*masik);
-	egyik = new AndGate(*egyik, *masik);
+	Circuit circ1(original);
+	Logger::resetEntry();
+	Logger::currentEntry.startingSize = original.getSize();
+	Logger::currentEntry.startTime = clock();
+	circ1.simplify();
+	Logger::currentEntry.finishTime = clock();
+	Logger::currentEntry.finalSize = circ1.getSize();
+	Logger::showStats1();
 
-	halozat.setOutput(egyik);*/
-
-	Halozat halozat(4);
-	/*egyik = new OrGate(halozat[0], halozat[1]);
-	masik = new AndGate(halozat[1], halozat[2]);
-	egyik = new AndGate(*egyik, *masik);
-	egyik = new NotGate(*egyik);
-	halozat.setOutput(egyik);*/
-
-	egyik = new AndGate(halozat[0], halozat[2]);
-	masik = new AndGate(halozat[2], *new NotGate(halozat[3]));
-	egyik = new OrGate(*egyik, *masik);
-
-	masik = new AndGate(*new NotGate(halozat[0]), *new NotGate(halozat[2]));
-	egyik =new OrGate(*egyik, *masik);
-
-	masik = new AndGate(*new NotGate(halozat[2]), halozat[3]);
-	egyik =new OrGate(*egyik, *masik);
-	halozat.setOutput(egyik);
-
-	cout << halozat.toStringInfix() << endl;
-
-	halozat.minimizeQuineMcClusky();
-	cout << halozat.toStringInfix() << endl;
-	//halozat.removeNotGates();
-	/*cout << halozat.toStringPrefix() << endl;
-	cout << halozat.toStringPostfix() << endl <<endl;*/
-
-	/*//véletlenszerûen:
-	Halozat halozat2(5, 10);
-	cout << halozat2.toStringInfix() << endl;
-	cout << halozat2.kiertekel() << endl;
-
-	//halozat2.removeNotGates();
-	cout << halozat2.toStringInfix() << endl;*/
+	Logger::currentEntry.startingSize = original.getSize();
+	Logger::currentEntry.startTime = clock();
+	DnfCircuit dnf1(original);
+	Logger::currentEntry.dnfTime = clock();
+	Logger::currentEntry.dnfSize = dnf1.getSize();
+	dnf1.minimizeEspresso();
+	Logger::currentEntry.finishTime = clock();
+	Logger::currentEntry.finalSize = dnf1.getSize();
+	Logger::showStats1();
+	
+	Logger::resetEntry();
+	Logger::currentEntry.startingSize = original.getSize();
+	Logger::currentEntry.startTime = clock();
+	DnfCircuit dnf2(original);
+	Logger::currentEntry.dnfTime = clock();
+	Logger::currentEntry.dnfSize = dnf2.getSize();
+	dnf2.minimizeQuineMcClusky();
+	Logger::currentEntry.finishTime = clock();
+	Logger::currentEntry.finalSize = dnf2.getSize();
+	Logger::showStats1();
 
 
-
+	}
+	//cout << Gate::constrCall<<" "<<Gate::destrCall<<endl;
 	system("PAUSE");
 }

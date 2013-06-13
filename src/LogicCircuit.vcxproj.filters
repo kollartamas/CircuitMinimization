@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Quine-McClusky">
+      <UniqueIdentifier>{c8400d88-781d-432c-9358-22c805f06c98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Quine-McClusky">
+      <UniqueIdentifier>{3576f1d1-ea8d-4a27-baf8-f761776ce061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Espresso">
+      <UniqueIdentifier>{9902cebb-ff1b-4b20-8db1-33fe158d2c68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Espresso">
+      <UniqueIdentifier>{2ed9c739-9907-49d9-ab3e-3069981e7a77}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AndGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OrGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NotGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Quine_McClusky\PrimeChart.cpp">
+      <Filter>Source Files\Quine-McClusky</Filter>
+    </ClCompile>
+    <ClCompile Include="Quine_McClusky\Implicant.cpp">
+      <Filter>Source Files\Quine-McClusky</Filter>
+    </ClCompile>
+    <ClCompile Include="Quine_McClusky\ImplicantChart.cpp">
+      <Filter>Source Files\Quine-McClusky</Filter>
+    </ClCompile>
+    <ClCompile Include="TrueGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FalseGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Link.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BivariateGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Circuit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DnfCircuit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\verify.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\black_white.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\canonical.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\cofactor.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\cols.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\compl.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\contain.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\cpu_time.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\cubestr.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\cvrin.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\cvrm.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\cvrmisc.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\cvrout.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\dominate.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\dummy.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\equiv.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\errtrap.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\espresso.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\essen.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\essentiality.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\exact.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\expand.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\gasp.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\getopt.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\gimpel.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\globals.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\hack.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\indep.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\irred.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\map.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\matrix.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\memccpy.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\memchr.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\memcmp.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\memcpy.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\memset.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\mincov.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\opo.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\pair.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\part.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\pipefork.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\primes.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\prtime.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\reduce.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\rows.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\set.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\setc.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\sharp.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\sigma.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\signature.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\signature_exact.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\sminterf.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\solution.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\sparse.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\st.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strcat.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strchr.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strcmp.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strcpy.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strcspn.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strerror.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strlen.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strncat.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strncmp.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strncpy.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strpbrk.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strrchr.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strsav.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strspn.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strstr.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\strtok.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\tmpfile.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\unate.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\util_signature.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso\espresso_main.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiAnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiOr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AndGate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OrGate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NotGate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Quine_McClusky\PrimeChart.h">
+      <Filter>Header Files\Quine-McClusky</Filter>
+    </ClInclude>
+    <ClInclude Include="Quine_McClusky\Implicant.h">
+      <Filter>Header Files\Quine-McClusky</Filter>
+    </ClInclude>
+    <ClInclude Include="Quine_McClusky\ImplicantChart.h">
+      <Filter>Header Files\Quine-McClusky</Filter>
+    </ClInclude>
+    <ClInclude Include="FalseGate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CircuitException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Link.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BivariateGate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Circuit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DnfCircuit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TrueGate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\ansi.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\copyright.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\errtrap.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\espresso.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\main.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\mincov.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\mincov_int.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\port.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\signature.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\sparse.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\sparse_int.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\st.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\stdlib.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso\utility.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiGate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiAnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiOr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaFormatException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

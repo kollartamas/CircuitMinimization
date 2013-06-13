@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>LogicCircuit</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;__STDC__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AndGate.cpp" />
+    <ClCompile Include="BivariateGate.cpp" />
+    <ClCompile Include="Circuit.cpp" />
+    <ClCompile Include="DnfCircuit.cpp" />
+    <ClCompile Include="Espresso\black_white.c" />
+    <ClCompile Include="Espresso\canonical.c" />
+    <ClCompile Include="Espresso\cofactor.c" />
+    <ClCompile Include="Espresso\cols.c" />
+    <ClCompile Include="Espresso\compl.c" />
+    <ClCompile Include="Espresso\contain.c" />
+    <ClCompile Include="Espresso\cpu_time.c" />
+    <ClCompile Include="Espresso\cubestr.c" />
+    <ClCompile Include="Espresso\cvrin.c" />
+    <ClCompile Include="Espresso\cvrm.c" />
+    <ClCompile Include="Espresso\cvrmisc.c" />
+    <ClCompile Include="Espresso\cvrout.c" />
+    <ClCompile Include="Espresso\dominate.c" />
+    <ClCompile Include="Espresso\dummy.c" />
+    <ClCompile Include="Espresso\equiv.c" />
+    <ClCompile Include="Espresso\errtrap.c" />
+    <ClCompile Include="Espresso\espresso.c" />
+    <ClCompile Include="Espresso\essen.c" />
+    <ClCompile Include="Espresso\essentiality.c" />
+    <ClCompile Include="Espresso\exact.c" />
+    <ClCompile Include="Espresso\expand.c" />
+    <ClCompile Include="Espresso\gasp.c" />
+    <ClCompile Include="Espresso\getopt.c" />
+    <ClCompile Include="Espresso\gimpel.c" />
+    <ClCompile Include="Espresso\globals.c" />
+    <ClCompile Include="Espresso\hack.c" />
+    <ClCompile Include="Espresso\indep.c" />
+    <ClCompile Include="Espresso\irred.c" />
+    <ClCompile Include="Espresso\espresso_main.c" />
+    <ClCompile Include="Espresso\map.c" />
+    <ClCompile Include="Espresso\matrix.c" />
+    <ClCompile Include="Espresso\memccpy.c" />
+    <ClCompile Include="Espresso\memchr.c" />
+    <ClCompile Include="Espresso\memcmp.c" />
+    <ClCompile Include="Espresso\memcpy.c" />
+    <ClCompile Include="Espresso\memset.c" />
+    <ClCompile Include="Espresso\mincov.c" />
+    <ClCompile Include="Espresso\opo.c" />
+    <ClCompile Include="Espresso\pair.c" />
+    <ClCompile Include="Espresso\part.c" />
+    <ClCompile Include="Espresso\pipefork.c" />
+    <ClCompile Include="Espresso\primes.c" />
+    <ClCompile Include="Espresso\prtime.c" />
+    <ClCompile Include="Espresso\reduce.c" />
+    <ClCompile Include="Espresso\rows.c" />
+    <ClCompile Include="Espresso\set.c" />
+    <ClCompile Include="Espresso\setc.c" />
+    <ClCompile Include="Espresso\sharp.c" />
+    <ClCompile Include="Espresso\sigma.c" />
+    <ClCompile Include="Espresso\signature.c" />
+    <ClCompile Include="Espresso\signature_exact.c" />
+    <ClCompile Include="Espresso\sminterf.c" />
+    <ClCompile Include="Espresso\solution.c" />
+    <ClCompile Include="Espresso\sparse.c" />
+    <ClCompile Include="Espresso\st.c" />
+    <ClCompile Include="Espresso\strcat.c" />
+    <ClCompile Include="Espresso\strchr.c" />
+    <ClCompile Include="Espresso\strcmp.c" />
+    <ClCompile Include="Espresso\strcpy.c" />
+    <ClCompile Include="Espresso\strcspn.c" />
+    <ClCompile Include="Espresso\strerror.c" />
+    <ClCompile Include="Espresso\strlen.c" />
+    <ClCompile Include="Espresso\strncat.c" />
+    <ClCompile Include="Espresso\strncmp.c" />
+    <ClCompile Include="Espresso\strncpy.c" />
+    <ClCompile Include="Espresso\strpbrk.c" />
+    <ClCompile Include="Espresso\strrchr.c" />
+    <ClCompile Include="Espresso\strsav.c" />
+    <ClCompile Include="Espresso\strspn.c" />
+    <ClCompile Include="Espresso\strstr.c" />
+    <ClCompile Include="Espresso\strtok.c" />
+    <ClCompile Include="Espresso\tmpfile.c" />
+    <ClCompile Include="Espresso\unate.c" />
+    <ClCompile Include="Espresso\util_signature.c" />
+    <ClCompile Include="Espresso\verify.c" />
+    <ClCompile Include="FalseGate.cpp" />
+    <ClCompile Include="Gate.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Link.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MultiAnd.cpp" />
+    <ClCompile Include="MultiGate.cpp" />
+    <ClCompile Include="MultiOr.cpp" />
+    <ClCompile Include="NotGate.cpp" />
+    <ClCompile Include="OrGate.cpp" />
+    <ClCompile Include="Quine_McClusky\Implicant.cpp" />
+    <ClCompile Include="Quine_McClusky\ImplicantChart.cpp" />
+    <ClCompile Include="Quine_McClusky\PrimeChart.cpp" />
+    <ClCompile Include="TrueGate.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AndGate.h" />
+    <ClInclude Include="BivariateGate.h" />
+    <ClInclude Include="Circuit.h" />
+    <ClInclude Include="CircuitException.h" />
+    <ClInclude Include="DnfCircuit.h" />
+    <ClInclude Include="Espresso\ansi.h" />
+    <ClInclude Include="Espresso\copyright.h" />
+    <ClInclude Include="Espresso\errtrap.h" />
+    <ClInclude Include="Espresso\espresso.h" />
+    <ClInclude Include="Espresso\main.h" />
+    <ClInclude Include="Espresso\mincov.h" />
+    <ClInclude Include="Espresso\mincov_int.h" />
+    <ClInclude Include="Espresso\port.h" />
+    <ClInclude Include="Espresso\signature.h" />
+    <ClInclude Include="Espresso\sparse.h" />
+    <ClInclude Include="Espresso\sparse_int.h" />
+    <ClInclude Include="Espresso\st.h" />
+    <ClInclude Include="Espresso\stdlib.h" />
+    <ClInclude Include="Espresso\utility.h" />
+    <ClInclude Include="FalseGate.h" />
+    <ClInclude Include="Gate.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="Link.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="MultiAnd.h" />
+    <ClInclude Include="MultiGate.h" />
+    <ClInclude Include="MultiOr.h" />
+    <ClInclude Include="NotGate.h" />
+    <ClInclude Include="OrGate.h" />
+    <ClInclude Include="PlaFormatException.h" />
+    <ClInclude Include="Quine_McClusky\Implicant.h" />
+    <ClInclude Include="Quine_McClusky\ImplicantChart.h" />
+    <ClInclude Include="Quine_McClusky\PrimeChart.h" />
+    <ClInclude Include="TrueGate.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

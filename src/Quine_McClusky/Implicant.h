@@ -12,10 +12,11 @@ public://private:
 	unsigned int numOfTrues;
 	unsigned int numOfDontCares;
 	std::vector<int> values;
+	bool valid;
 
 	void Implicant::addMintermsToListFromPosition(unsigned int position, std::list<Implicant>& mintermList);
 	std::list<unsigned int> mintermIDs;
-	bool marked;
+	mutable bool marked;
 public:
 	enum Value{INVALID=0, TRUE=1, FALSE=2, DONT_CARE=3};
 
@@ -26,7 +27,8 @@ public:
 	std::list<Implicant> toMintermList();
 	std::string toString();
 
-	bool operator==(Implicant& other); 
+	bool operator==(const Implicant& other) const;
+	bool operator<(const Implicant& other) const;
 };
 
 #endif

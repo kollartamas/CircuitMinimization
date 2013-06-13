@@ -10,18 +10,22 @@ Implicant::Implicant(vector<int> values):
 	numOfTrues(0),
 	numOfDontCares(0),
 	values(values),
+	valid(true),
 	marked(false)
 	//minterms()
 {
 	for(unsigned int i=0; i<values.size(); i++)
 	{
-		if(values[i]==TRUE)
+		switch(values[i])
 		{
+		case TRUE:
 			numOfTrues++;
-		}
-		else if(values[i]==DONT_CARE)
-		{
+			break;
+		case DONT_CARE:
 			numOfDontCares++;
+			break;
+		case INVALID:
+			this->valid = false;
 		}
 	}
 }
@@ -114,7 +118,7 @@ void Implicant::addMintermsToListFromPosition(unsigned int position, std::list<I
 	mintermList.push_back(*this);
 }
 
-bool Implicant::operator==(Implicant& other)
+bool Implicant::operator==(const Implicant& other) const
 {
 	if(this->numOfVariables!=other.numOfVariables
 		|| this->numOfTrues!=other.numOfTrues
@@ -131,4 +135,10 @@ bool Implicant::operator==(Implicant& other)
 		}
 	}
 	return true;
+}
+
+
+bool Implicant::operator<(const Implicant& other) const
+{
+	return lexicographical_compare(this->values.begin(), this->values.end(), other.values.begin(), other.values.end());
 }

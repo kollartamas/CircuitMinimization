@@ -10,20 +10,20 @@
 class PrimeChart
 {
 private:
-	std::vector<std::list<Implicant*>> coveringImplicants;
+	std::vector<std::list<const Implicant*>> coveringImplicants;
 	std::vector<bool> covered;
-	std::list<Implicant*> getEssentialPrimes();
-	void buildSubtreeFromPosition(std::list<Implicant*>& currentDNF, unsigned int position);
+	std::list<const Implicant*> getEssentialPrimes();
+	void buildSubtreeFromPosition(std::list<const Implicant*>& currentDNF, unsigned int position);
 
-	std::list<Implicant*> bestDNF;
+	std::list<const Implicant*> bestDNF;
 	unsigned int bestNumOfTerms;
 	unsigned int bestNumOfLiterals;
 	bool foundMinimal;
 	
 public:
 	PrimeChart(unsigned int numOfMinterms);
-	void addToChart(unsigned int coveredMinterm, Implicant* implicant);
-	std::list<Implicant*> getMinimalDNF();
+	void addToChart(unsigned int coveredMinterm, const Implicant* implicant);
+	std::list<const Implicant*> getMinimalDNF();
 };
 
 

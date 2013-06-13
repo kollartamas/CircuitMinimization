@@ -1,26 +1,33 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "Kapu.h"
+#include "Gate.h"
 #include <string>
 
-class Input: public Kapu
+class Input: public Gate
 {
-public://private:
+public:
+	typedef std::shared_ptr<Input> InputPtr;	
+//private:
 	unsigned int id;
 public:
 	Input(unsigned int id=0);
+	Input(Input& other);
+	~Input(){}
+	/*void deleteRecursively(){};*/
+
+	bool getValue();
 	void setValue(bool val);
-	void erteketFrissit();
 
 	
 	void addToStringInfix(std::string& dest);
 	void addToStringPrefix(std::string& dest);
 	void addToStringPostfix(std::string& dest);
-	void calculateInfixLength();
-	void calculatePrefixLength();
+	unsigned int getInfixLength();
+	unsigned int getPrefixLength();
 
-	void createNegatedTwin();
+	GatePtr getNegatedTwin();
+	GatePtr getCopyTwin();
 };
 
 #endif

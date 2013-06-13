@@ -8,28 +8,28 @@
 using namespace std;
 
 PrimeChart::PrimeChart(unsigned int numOfMinterms):
-	coveringImplicants(numOfMinterms, list<Implicant*>()),
+	coveringImplicants(numOfMinterms, list<const Implicant*>()),
 	covered(numOfMinterms, false),
 	bestNumOfTerms(UINT_MAX),
 	bestNumOfLiterals(UINT_MAX),
 	foundMinimal(false)
 {}
 
-void PrimeChart::addToChart(unsigned int coveredMinterm, Implicant* implicant)
+void PrimeChart::addToChart(unsigned int coveredMinterm, const Implicant* implicant)
 {
 	coveringImplicants[coveredMinterm].push_back(implicant);
 }
 
-list<Implicant*> PrimeChart::getEssentialPrimes()
+list<const Implicant*> PrimeChart::getEssentialPrimes()
 {
-	list<Implicant*> essentialPrimes;
+	list<const Implicant*> essentialPrimes;
 
 	for(unsigned int i=0; i<coveringImplicants.size(); i++)
 	{
 		//ha egy mintermet csak egyetlen implicant fed le:
 		if(!covered[i] && coveringImplicants[i].size()==1)
 		{
-			Implicant* implicant = coveringImplicants[i].front();
+			const Implicant* implicant = coveringImplicants[i].front();
 			essentialPrimes.push_back(implicant);
 			for each(unsigned int coveredID in implicant->mintermIDs)
 			{
@@ -40,7 +40,7 @@ list<Implicant*> PrimeChart::getEssentialPrimes()
 	return essentialPrimes;
 }
 
-list<Implicant*> PrimeChart::getMinimalDNF()
+list<const Implicant*> PrimeChart::getMinimalDNF()
 {
 	if(!foundMinimal)
 	{
@@ -50,7 +50,7 @@ list<Implicant*> PrimeChart::getMinimalDNF()
 	return bestDNF;
 }
 
-void PrimeChart::buildSubtreeFromPosition(list<Implicant*>& currentDNF, unsigned int position)
+void PrimeChart::buildSubtreeFromPosition(list<const Implicant*>& currentDNF, unsigned int position)
 {
 	for(unsigned int i=position; i<coveringImplicants.size(); i++)
 	{
@@ -62,7 +62,7 @@ void PrimeChart::buildSubtreeFromPosition(list<Implicant*>& currentDNF, unsigned
 				throw exception("Hiba: nem talaltam megfelelo DNF-et");
 			}
 
-			for each(Implicant* implicant in coveringImplicants[i])
+			for each(const Implicant* implicant in coveringImplicants[i])
 			{
 				currentDNF.push_back(implicant);
 				//beállítjuk a megfelelõ mintermeket lefedettre, és feljegyezzük a backtracking miatt

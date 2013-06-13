@@ -8,11 +8,15 @@ using namespace std;
 Input::Input(unsigned int id)
 {
 	this->id = id;
-	this->tipus = INPUT;
+	this->type = INPUT;
 	this->value = false;
+}
 
-	inputs = vector<Kapu*>();
-	outputs = list<Kapu*>();
+Input::Input(Input& other)
+{
+	this->id = other.id;
+	this->type = INPUT;
+	this->value = other.value;
 }
 
 void Input::setValue(bool value)
@@ -20,18 +24,29 @@ void Input::setValue(bool value)
 	this->value = value;
 }
 
-void Input::erteketFrissit()
+bool Input::getValue()
 {
+	return value;
 }
 
-void Input::calculateInfixLength()
+unsigned int Input::getInfixLength()
 {
-	stringLength = static_cast<unsigned int>(log10((double)(id+1)));
+	if(!isFlagged(MARKED))
+	{
+		stringLength = 1 + static_cast<unsigned int>(log10((double)(id==0?1:id)));
+		setFlag(MARKED);
+	}
+	return stringLength;
 }
 
-void Input::calculatePrefixLength()
+unsigned int Input::getPrefixLength()
 {
-	stringLength = 1 + static_cast<unsigned int>(log10((double)(id+1)));
+	if(!isFlagged(MARKED))
+	{
+		stringLength = 2 + static_cast<unsigned int>(log10((double)(id==0?1:id)));
+		setFlag(MARKED);
+	}
+	return stringLength;
 }
 
 void Input::addToStringInfix(std::string& dest)
@@ -51,9 +66,24 @@ void Input::addToStringPostfix(std::string& dest)
 	dest += ' ';
 }
 
-void Input::createNegatedTwin()
+Gate::GatePtr Input::getNegatedTwin()
 {
-	twin = new NotGate(*this);
-	this->addOutput(twin);
-	//twin->twin = this;
+	if(!isFlagged(TWIN))
+	{
+		GatePtr twinPtr(make_shared<NotGate>(shared_from_this()));
+		setTwinStrong(twinPtr);
+		twinPtr->setTwinWeak(shared_from_this());
+	}
+
+	return getTwinStrong();
+}
+
+Gate::GatePtr Input::getCopyTwin()
+{
+	if(!isFlagged(TWIN))
+	{
+		setTwinStrong(make_shared<Input>(*this));
+		setFlag(TWIN);
+	}
+	return getTwinStrong();
 }

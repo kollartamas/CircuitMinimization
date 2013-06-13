@@ -2,6 +2,7 @@
 #define IMPLICANT_CHART_H
 
 #include <list>
+#include <set>
 #include "Implicant.h"
 
 //typedef std::list<Implicant> Bracket;
@@ -9,10 +10,10 @@
 class ImplicantChart
 {
 private:
-	std::list< std::list<Implicant> > sizeBrackets;
+	std::list< std::set<Implicant> > sizeBrackets;
 	unsigned int numOfMinterms;
 
-	void mergeImplicantsInBracket( std::list<Implicant>& bracket, std::list<Implicant>& nextBracket);
+	void mergeImplicantsInBracket( std::set<Implicant>& bracket, std::set<Implicant>& nextBracket);
 	void mergeAllImplicants();
 	//unsigned int countUnmarkedImplicants();
 

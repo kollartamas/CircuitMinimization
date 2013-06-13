@@ -10,12 +10,17 @@ ImplicantChart::ImplicantChart():
 	numOfMinterms(0)
 	//sizeBrackets()
 {
-	std::list<Implicant> mintermBracket;
+	std::set<Implicant> mintermBracket;
 	sizeBrackets.push_back(mintermBracket);
 }
 
 void ImplicantChart::addMinterm(Implicant& minterm, bool required)
 {
+	if(!minterm.valid)
+	{
+		return;
+	}
+
 	//ismétlõdéseket kiszûrjük:
 	for each(Implicant existing in sizeBrackets.front())
 	{
@@ -29,14 +34,14 @@ void ImplicantChart::addMinterm(Implicant& minterm, bool required)
 	{
 		minterm.mintermIDs.push_back(numOfMinterms++);
 	}
-	sizeBrackets.front().push_back(minterm);
+	sizeBrackets.front().insert(minterm);
 }
 
-void ImplicantChart::mergeImplicantsInBracket(list<Implicant>& bracket, list<Implicant>& nextBracket)
+void ImplicantChart::mergeImplicantsInBracket(set<Implicant>& bracket, set<Implicant>& nextBracket)
 {
-	for(list<Implicant>::iterator iter1 = bracket.begin(); iter1!=bracket.end(); ++iter1)
+	for(set<Implicant>::iterator iter1 = bracket.begin(); iter1!=bracket.end(); ++iter1)
 	{
-		for(list<Implicant>::iterator iter2 = bracket.begin(); iter2!=bracket.end(); ++iter2)
+		for(set<Implicant>::iterator iter2 = bracket.begin(); iter2!=bracket.end(); ++iter2)
 		{
 			if (iter1==iter2){continue;}
 
@@ -45,7 +50,7 @@ void ImplicantChart::mergeImplicantsInBracket(list<Implicant>& bracket, list<Imp
 			{
 				iter1->marked = true;
 				iter2->marked = true;
-				nextBracket.push_back(result);
+				nextBracket.insert(result);
 			}
 
 		}
@@ -54,9 +59,9 @@ void ImplicantChart::mergeImplicantsInBracket(list<Implicant>& bracket, list<Imp
 
 void ImplicantChart::mergeAllImplicants()
 {
-	for(list<list<Implicant>>::iterator currentBracket = sizeBrackets.begin(); currentBracket->size()>1; ++currentBracket)
+	for(list<set<Implicant>>::iterator currentBracket = sizeBrackets.begin(); currentBracket->size()>1; ++currentBracket)
 	{
-		sizeBrackets.push_back(list<Implicant>());
+		sizeBrackets.push_back(set<Implicant>());
 		mergeImplicantsInBracket(*currentBracket, *next(currentBracket));
 	}
 	if(sizeBrackets.back().size()==0){sizeBrackets.pop_back();}
@@ -68,9 +73,9 @@ list<Implicant> ImplicantChart::getMinimizedDNF()
 
 	PrimeChart primeChart(this->numOfMinterms);
 	mergeAllImplicants();
-	for(list<list<Implicant>>::reverse_iterator currentBracket=sizeBrackets.rbegin(); currentBracket!=sizeBrackets.rend(); ++currentBracket)
+	for(list<set<Implicant>>::reverse_iterator currentBracket=sizeBrackets.rbegin(); currentBracket!=sizeBrackets.rend(); ++currentBracket)
 	{
-		for(list<Implicant>::iterator implicant = currentBracket->begin(); implicant!=currentBracket->end(); ++implicant)
+		for(set<Implicant>::iterator implicant = currentBracket->begin(); implicant!=currentBracket->end(); ++implicant)
 		{
 			if (!implicant->marked)
 			{
@@ -81,7 +86,7 @@ list<Implicant> ImplicantChart::getMinimizedDNF()
 			}
 		}
 	}
-	for each(Implicant* p_implicant in primeChart.getMinimalDNF())
+	for each(const Implicant* p_implicant in primeChart.getMinimalDNF())
 	{
 		result.push_back(*p_implicant);
 	}
