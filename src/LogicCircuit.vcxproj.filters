@@ -19,11 +19,14 @@
     <Filter Include="Header Files\Quine-McClusky">
       <UniqueIdentifier>{3576f1d1-ea8d-4a27-baf8-f761776ce061}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Espresso">
-      <UniqueIdentifier>{9902cebb-ff1b-4b20-8db1-33fe158d2c68}</UniqueIdentifier>
+    <Filter Include="Header Files\Abc">
+      <UniqueIdentifier>{f356841c-e81e-4be2-b3dc-0f834d5a61ef}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Espresso">
-      <UniqueIdentifier>{2ed9c739-9907-49d9-ab3e-3069981e7a77}</UniqueIdentifier>
+      <UniqueIdentifier>{7f5ada53-2aff-4f52-a599-248d159dcc1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Espresso">
+      <UniqueIdentifier>{1da8546f-ba55-4563-88ee-9ac79ae885fe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -72,231 +75,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Espresso\verify.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\black_white.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\canonical.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\cofactor.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\cols.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\compl.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\contain.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\cpu_time.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\cubestr.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\cvrin.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\cvrm.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\cvrmisc.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\cvrout.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\dominate.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\dummy.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\equiv.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\errtrap.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\espresso.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\essen.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\essentiality.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\exact.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\expand.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\gasp.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\getopt.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\gimpel.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\globals.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\hack.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\indep.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\irred.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\map.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\matrix.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\memccpy.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\memchr.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\memcmp.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\memcpy.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\memset.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\mincov.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\opo.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\pair.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\part.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\pipefork.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\primes.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\prtime.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\reduce.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\rows.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\set.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\setc.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\sharp.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\sigma.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\signature.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\signature_exact.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\sminterf.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\solution.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\sparse.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\st.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strcat.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strchr.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strcmp.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strcpy.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strcspn.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strerror.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strlen.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strncat.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strncmp.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strncpy.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strpbrk.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strrchr.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strsav.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strspn.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strstr.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\strtok.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\tmpfile.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\unate.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\util_signature.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
-    <ClCompile Include="Espresso\espresso_main.c">
-      <Filter>Source Files\Espresso</Filter>
-    </ClCompile>
     <ClCompile Include="MultiGate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -308,6 +86,231 @@
     </ClCompile>
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CircuitWithoutNotGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\verify.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\black_white.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\canonical.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\cofactor.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\cols.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\compl.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\contain.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\cpu_time.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\cubestr.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\cvrin.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\cvrm.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\cvrmisc.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\cvrout.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\dominate.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\dummy.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\equiv.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\errtrap.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\espresso.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\espresso_main.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\essen.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\essentiality.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\exact.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\expand.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\gasp.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\getopt.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\gimpel.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\globals.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\hack.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\indep.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\irred.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\map.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\matrix.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\memccpy.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\memchr.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\memcmp.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\memcpy.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\memset.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\mincov.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\opo.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\pair.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\part.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\pipefork.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\primes.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\prtime.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\reduce.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\rows.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\set.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\setc.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\sharp.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\sigma.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\signature.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\signature_exact.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\sminterf.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\solution.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\sparse.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\st.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strcat.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strchr.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strcmp.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strcpy.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strcspn.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strerror.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strlen.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strncat.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strncmp.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strncpy.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strpbrk.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strrchr.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strsav.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strspn.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\strtok.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\tmpfile.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\unate.c">
+      <Filter>Source Files\Espresso</Filter>
+    </ClCompile>
+    <ClCompile Include="Espresso_Win\util_signature.c">
+      <Filter>Source Files\Espresso</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,9 +338,6 @@
     <ClInclude Include="FalseGate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CircuitException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Link.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -356,48 +356,6 @@
     <ClInclude Include="TrueGate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Espresso\ansi.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
-    <ClInclude Include="Espresso\copyright.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
-    <ClInclude Include="Espresso\errtrap.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
-    <ClInclude Include="Espresso\espresso.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
-    <ClInclude Include="Espresso\main.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
-    <ClInclude Include="Espresso\mincov.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
-    <ClInclude Include="Espresso\mincov_int.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
-    <ClInclude Include="Espresso\port.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
-    <ClInclude Include="Espresso\signature.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
-    <ClInclude Include="Espresso\sparse.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
-    <ClInclude Include="Espresso\sparse_int.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
-    <ClInclude Include="Espresso\st.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
-    <ClInclude Include="Espresso\stdlib.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
-    <ClInclude Include="Espresso\utility.h">
-      <Filter>Header Files\Espresso</Filter>
-    </ClInclude>
     <ClInclude Include="MultiGate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -412,6 +370,642 @@
     </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CircuitWithoutNotGate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\zutil.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\abc.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\abc_global.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\abcapis.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\abcInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\abs.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\absRef.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\absRefJ.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\aig.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\amap.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\amapInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\attr.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\avl.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\bar.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\bblif.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\bbr.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\bdc.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\bdcInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\bmc.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\bzlib.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\bzlib_private.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cas.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cec.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cecInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cgt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cgtInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cloud.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cmd.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cmdInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cnf.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cov.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\covInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\crc32.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cudd.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cudd2.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cuddInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cut.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cutInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cutList.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\csat_apis.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\csw.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\cswInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\dar.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\darInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\dau.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\dauInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\dch.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\dchInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\dec.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\deco.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\deflate.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\dsd.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\dsdInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\epd.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\espresso.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\exp.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\ext.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\extra.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\extraBdd.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\fpga.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\fpgaInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\fra.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\fraig.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\fraigInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\fsim.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\fsimInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\fxu.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\fxuInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\gia.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\giaAig.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\gzguts.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\hash.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\hashFlt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\hashGen.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\hashInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\hashPtr.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\hop.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\if.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\inffast.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\inffixed.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\inflate.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\inftrees.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\int.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\intInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\ioa.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\ioAbc.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\ioInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\ivy.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\kit.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\libhmetis.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\literal.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\llb.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\llbInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\lpk.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\lpkInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\lucky.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\luckyInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\m114p.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\m114p_types.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\main.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mainInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mapper.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mapperInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mem.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mem2.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mfs.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mfsInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mincov.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mincov_int.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\miniaig.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mio.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mioInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mpm.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mpmInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mpmMig.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\msat.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\msatInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mtr.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mtrInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\mvc.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\nm.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\nmInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\ntlnwk.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\nwk.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\nwkMerge.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\parse.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\parseInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\pdr.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\pdrInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\place_base.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\place_gordian.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\place_qpsolver.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\pr.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\reo.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\res.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\resInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\retInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\rpo.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\rsb.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\rsbInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\rwr.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\rwt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\saig.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\satClause.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\satMem.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\satProof2.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\satSolver.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\satSolver2.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\satStore.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\satTruth.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\satVec.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\scl.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\sclLib.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\sclSize.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\sclTime.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\sfm.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\sfmInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\sim.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\solver.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\sparse.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\sparse_int.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\ssc.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\sscInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\ssw.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\sswInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\st.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\stmm.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\super.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\superInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\tim.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\timInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\trees.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\util_hack.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\util_old.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\utilCex.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\utilMem.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\utilNam.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\utilSignal.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\utilTruth.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vec.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecAtt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecBit.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecFlt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecHash.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecHsh.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecInt.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecMem.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecPtr.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecQue.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecSet.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecStr.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecVec.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecWec.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\vecWrd.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\ver.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\zconf.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Abc\zlib.h">
+      <Filter>Header Files\Abc</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\utility.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\ansi.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\copyright.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\errtrap.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\espresso.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\espresso_main.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\mincov.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\mincov_int.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\port.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\signature.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\sparse.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\sparse_int.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\st.h">
+      <Filter>Header Files\Espresso</Filter>
+    </ClInclude>
+    <ClInclude Include="Espresso_Win\stdlib.h">
+      <Filter>Header Files\Espresso</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

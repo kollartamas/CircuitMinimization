@@ -5,8 +5,7 @@
 /*
  *  allocate a new col vector 
  */
-sm_col *
-sm_col_alloc()
+sm_col * sm_col_alloc(void)
 {
     register sm_col *pcol;
 
@@ -37,9 +36,7 @@ sm_col_alloc()
  *  the elements one-by-one; that is the only use for the extra '-DCOLS'
  *  compile flag ...
  */
-void
-sm_col_free(pcol)
-register sm_col *pcol;
+void sm_col_free(register sm_col *pcol)
 {
 #if defined(FAST_AND_LOOSE) && ! defined(COLS)
     if (pcol->first_row != NIL(sm_element)) {
@@ -66,9 +63,7 @@ register sm_col *pcol;
 /*
  *  duplicate an existing col
  */
-sm_col *
-sm_col_dup(pcol)
-register sm_col *pcol;
+sm_col * sm_col_dup(register sm_col *pcol)
 {
     register sm_col *pnew;
     register sm_element *p;
@@ -84,10 +79,7 @@ register sm_col *pcol;
 /*
  *  insert an element into a col vector 
  */
-sm_element *
-sm_col_insert(pcol, row)
-register sm_col *pcol;
-register int row;
+sm_element * sm_col_insert(register sm_col *pcol, register int row)
 {
     register sm_element *test, *element;
 
@@ -110,10 +102,7 @@ register int row;
 /*
  *  remove an element from a col vector 
  */
-void
-sm_col_remove(pcol, row)
-register sm_col *pcol;
-register int row;
+void sm_col_remove(register sm_col *pcol, register int row)
 {
     register sm_element *p;
 
@@ -130,10 +119,7 @@ register int row;
 /*
  *  find an element (if it is in the col vector)
  */
-sm_element *
-sm_col_find(pcol, row)
-sm_col *pcol;
-int row;
+sm_element * sm_col_find(sm_col *pcol, int row)
 {
     register sm_element *p;
 
@@ -149,9 +135,7 @@ int row;
 /*
  *  return 1 if col p2 contains col p1; 0 otherwise
  */
-int 
-sm_col_contains(p1, p2)
-sm_col *p1, *p2;
+int sm_col_contains(sm_col *p1, sm_col *p2)
 {
     register sm_element *q1, *q2;
 
@@ -174,9 +158,7 @@ sm_col *p1, *p2;
 /*
  *  return 1 if col p1 and col p2 share an element in common
  */
-int 
-sm_col_intersects(p1, p2)
-sm_col *p1, *p2;
+int sm_col_intersects(sm_col *p1, sm_col *p2)
 {
     register sm_element *q1, *q2;
 
@@ -202,9 +184,7 @@ sm_col *p1, *p2;
 /*
  *  compare two cols, lexical ordering
  */
-int 
-sm_col_compare(p1, p2)
-sm_col *p1, *p2;
+int sm_col_compare(sm_col *p1, sm_col *p2)
 {
     register sm_element *q1, *q2;
 
@@ -231,9 +211,7 @@ sm_col *p1, *p2;
 /*
  *  return the intersection
  */
-sm_col *
-sm_col_and(p1, p2)
-sm_col *p1, *p2;
+sm_col * sm_col_and(sm_col *p1, sm_col *p2)
 {
     register sm_element *q1, *q2;
     register sm_col *result;
@@ -263,10 +241,7 @@ sm_col *p1, *p2;
     }
 }
 
-int 
-sm_col_hash(pcol, modulus)
-sm_col *pcol;
-int modulus;
+int sm_col_hash(sm_col *pcol, int modulus)
 {
     register int sum;
     register sm_element *p;
@@ -281,10 +256,7 @@ int modulus;
 /*
  *  remove an element from a col vector (given a pointer to the element) 
  */
-void
-sm_col_remove_element(pcol, p)
-register sm_col *pcol;
-register sm_element *p;
+void sm_col_remove_element(register sm_col *pcol, register sm_element *p)
 {
     dll_unlink(p, pcol->first_row, pcol->last_row, 
 			next_row, prev_row, pcol->length);
@@ -292,10 +264,7 @@ register sm_element *p;
 }
 
 
-void
-sm_col_print(fp, pcol)
-FILE *fp;
-sm_col *pcol;
+void sm_col_print(FILE *fp, sm_col *pcol)
 {
     sm_element *p;
 

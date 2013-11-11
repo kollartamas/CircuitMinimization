@@ -1,0 +1,40 @@
+balance
+print_stats
+balance; rewrite -l; refactor -l; balance; rewrite -l; rewrite -lz; balance; refactor -lz; rewrite -lz; balance
+resyn
+b; rw; rwz; b; rwz; b
+resyn2a
+resyn3
+recadd3
+recstart2
+rec_start2
+rec_start2 newFile.txt
+compress
+print_stats
+write_blif newFile.txt
+resyn2
+fraig
+choice2
+unset progressbar
+choice; map; ps
+choice; fpga; ps
+compact
+compress
+resyn3
+comress
+fraig
+resyn2
+choice
+unset progressbar
+simplify
+&syn2
+&syn3
+&shrink
+&reduce
+&trim
+send_aig
+help
+rewrite
+print_stats
+resyn2
+compress2

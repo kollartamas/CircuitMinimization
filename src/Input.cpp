@@ -2,6 +2,7 @@
 #include "NotGate.h"
 
 #include <cmath>
+#include <iostream>	//TODO: kiszervezni innen
 
 using namespace std;
 
@@ -27,6 +28,11 @@ void Input::setValue(bool value)
 bool Input::getValue()
 {
 	return value;
+}
+
+unsigned int Input::getSizeAbcStyle()	//NOT és INPUT kapuk nélkül
+{
+	return 0;
 }
 
 unsigned int Input::getInfixLength()
@@ -66,6 +72,19 @@ void Input::addToStringPostfix(std::string& dest)
 	dest += ' ';
 }
 
+const set<Implicant>& Input::getDnf(unsigned int numOfVariables)
+{
+	if(!isFlagged(NORMAL_FORM))
+	{
+		setFlag(NORMAL_FORM);
+		vector<int> values(numOfVariables, Implicant::DONT_CARE);
+		values[id] = Implicant::TRUE;
+		normalForm.clear();
+		normalForm.insert(Implicant(values));
+	}
+	return normalForm;
+}
+
 Gate::GatePtr Input::getNegatedTwin()
 {
 	if(!isFlagged(TWIN))
@@ -86,4 +105,27 @@ Gate::GatePtr Input::getCopyTwin()
 		setFlag(TWIN);
 	}
 	return getTwinStrong();
+}
+
+unsigned int Input::printInputsRecursively(unsigned int& nextId)
+{
+	if(!isFlagged(MARKED))
+	{
+		setFlag(MARKED);
+		cout << id <<": input" << endl;
+	}
+	return id;
+}
+
+abc::Abc_Obj_t* Input::getAbcNode(abc::Abc_Ntk_t* pNetwork)
+{
+	if(!isFlagged(ABC_NODE))
+	{
+		setFlag(ABC_NODE);
+		pAbcNode = abc::Abc_NtkCreatePi( pNetwork );
+		/*char* pName;
+		sprintf(pName, "%ud", id);*/
+		abc::Abc_ObjAssignName( pAbcNode, (char*)to_string(static_cast<unsigned long long>(id)).c_str(), NULL );	//TODO: copy-t tárol?
+	}
+	return pAbcNode;
 }

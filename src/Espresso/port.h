@@ -7,6 +7,10 @@
  * int16 should be similarly defined
  */
 
+/* AB Stuff */
+
+typedef int (* qsort_compare_func)(const void *, const void *);
+
 /* XXX hack */
 #ifndef MACHDEP_INCLUDED
 #define MACHDEP_INCLUDED
@@ -152,20 +156,6 @@ extern int strcoll(), strxfrm(), strncmp(), strlen(), strspn(), strcspn();
 extern char *memmove(), *memccpy(), *memchr(), *memcpy(), *memset();
 extern int memcmp(), strcmp();
 #endif /* __STDC__ */
-
-#ifdef lint
-#undef putc			/* correct lint '_flsbuf' bug */
-#endif /* lint */
-
-/* a few extras */
-extern VOID_HACK srandom();
-extern long random();
-
-#if defined(ultrix3)
-extern unsigned sleep();
-#else
-extern VOID_HACK sleep();
-#endif
 
 /* assertion macro */
 

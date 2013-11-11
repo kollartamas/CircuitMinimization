@@ -14,7 +14,8 @@
  */
 
 #include "espresso.h"
-#include "main.h"		/* table definitions for options */
+#include "espresso_main.h"		/* table definitions for options */
+#include <unistd.h>
 
 FILE *espresso_in, *espresso_out;
 
@@ -22,6 +23,13 @@ FILE *espresso_in, *espresso_out;
 static FILE *last_fp;
 static int input_type = FD_type;
 
+void getPLA(int opt, int argc, char **argv, int option, pPLA *PLA, int out_type);
+void delete_arg(int *argc, register char **argv, int num);
+void init_runtime(void);
+void backward_compatibility_hack(int *argc, char **argv, int *option, int *out_type);
+void runtime(void);
+void usage(void);
+bool check_arg(int *argc, register char **argv, register char *s);
 
 int espresso_main(FILE* input, FILE* output, int argc, char **argv)
 {
@@ -35,8 +43,8 @@ int espresso_main(FILE* input, FILE* output, int argc, char **argv)
     extern char *optarg;
     extern int optind;
 
-	espresso_in = input;
-	espresso_out = output;
+    espresso_in = input;
+    espresso_out = output;
 
     start = ptime();
 
@@ -234,7 +242,7 @@ int espresso_main(FILE* input, FILE* output, int argc, char **argv)
 	    setdown_cube();
 	    FREE(cube.part_size);
 	} while (read_pla(last_fp, TRUE, TRUE, pla_type, &PLA) != EOF);
-	return 0;;
+	exit(0);
     }
 
     case KEY_simplify:
@@ -431,7 +439,7 @@ int espresso_main(FILE* input, FILE* output, int argc, char **argv)
 	    exit(1);
 	} else {
 	    printf("PLA's compared equal\n");
-	    return 0;;
+	    exit(0);
 	}
 	break;	/* silly */
 
@@ -443,7 +451,7 @@ int espresso_main(FILE* input, FILE* output, int argc, char **argv)
 	    exit(1);
 	} else {
 	    printf("PLA's compared equal\n");
-	    return 0;;
+	    exit(0);
 	}	
 	break;	/* silly */
 
@@ -529,17 +537,11 @@ int espresso_main(FILE* input, FILE* output, int argc, char **argv)
     sf_cleanup();               /* free unused set structures */
     sm_cleanup();               /* sparse matrix cleanup */
 
-    return 0;;
+    return 0;
 }
 
 
-getPLA(opt, argc, argv, option, PLA, out_type)
-int opt;
-int argc;
-char *argv[];
-int option;
-pPLA *PLA;
-int out_type;
+void getPLA(int opt, int argc, char **argv, int option, pPLA *PLA, int out_type)
 {
     FILE *fp;
     int needs_dcset, needs_offset;
@@ -569,7 +571,7 @@ int out_type;
 	fprintf(stderr, "%s: Unable to find PLA on file %s\n", argv[0], fname);
 	exit(1);
     }
-    (*PLA)->filename = util_strsav(fname);
+    (*PLA)->filename = strdup(fname);
     filename = (*PLA)->filename;
 /*    (void) fclose(fp);*/
 /* hackto support -Dmany */
@@ -577,7 +579,7 @@ int out_type;
 }
 
 
-runtime()
+void runtime(void)
 {
     int i;
     long total = 1, temp;
@@ -596,7 +598,7 @@ runtime()
 }
 
 
-init_runtime()
+void init_runtime(void)
 {
     total_name[READ_TIME] =     "READ       ";
     total_name[WRITE_TIME] =    "WRITE      ";
@@ -616,7 +618,7 @@ init_runtime()
 }
 
 
-subcommands()
+void subcommands(void)
 {
     int i, col;
     printf("                ");
@@ -635,7 +637,7 @@ subcommands()
 }
 
 
-usage()
+void usage(void)
 {
     printf("%s\n\n", VERSION);
     printf("SYNOPSIS: espresso [options] [file]\n\n");
@@ -668,11 +670,7 @@ usage()
  *  Hack for backward compatibility (ACK! )
  */
 
-backward_compatibility_hack(argc, argv, option, out_type)
-int *argc;
-char **argv;
-int *option;
-int *out_type;
+void backward_compatibility_hack(int *argc, char **argv, int *option, int *out_type)
 {
     int i, j;
 
@@ -733,9 +731,7 @@ int *out_type;
 
 
 /* delete_arg -- delete an argument from the argument list */
-delete_arg(argc, argv, num)
-int *argc, num;
-register char *argv[];
+void delete_arg(int *argc, register char **argv, int num)
 {
     register int i;
     (*argc)--;
@@ -746,9 +742,7 @@ register char *argv[];
 
 
 /* check_arg -- scan argv for an argument, and return TRUE if found */
-bool check_arg(argc, argv, s)
-int *argc;
-register char *argv[], *s;
+bool check_arg(int *argc, register char **argv, register char *s)
 {
     register int i;
     for(i = 1; i < *argc; i++) {

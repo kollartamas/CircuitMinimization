@@ -1,13 +1,20 @@
 #include "Gate.h"
 #include "Link.h"
 #include "MultiGate.h"
+#include "TrueGate.h"
+#include "FalseGate.h"
+#include "Logger.h"
 
 #include <list>
+#include <iostream>
+#include <string>
 
 using namespace std;
 
+#ifdef LOG_MAX_GATENUM
 unsigned int Gate::constrCall=0;
 unsigned int Gate::destrCall=0;
+#endif
 
 Gate::Gate():
 	inputs(0),
@@ -16,12 +23,24 @@ Gate::Gate():
 	type(NONE),
 	level(0),
 	stringLength(0),
+	normalForm(),
 	twinStrong(),
 	twinWeak(),
 	flags(0)
 	//marked(false),
 	//marked2(false)
-{constrCall++;}
+{
+#ifdef LOG_MAX_GATENUM
+	Logger::getLogger().setMaxGates(++constrCall-destrCall);
+#endif
+}
+
+Gate::~Gate()
+{
+#ifdef LOG_MAX_GATENUM
+	++destrCall;
+#endif
+}
 
 unsigned int Gate::getSize()
 {
@@ -32,9 +51,35 @@ unsigned int Gate::getSize()
 	else
 	{
 		unsigned int size = 1;
+#ifdef VS2010
 		for each(Link* input in inputs)
+#else
+		for(Link* input : inputs)
+#endif
 		{
 			size += input->getInput()->getSize();
+		}
+		setFlag(MARKED);
+		return size;
+	}
+}
+
+unsigned int Gate::getSizeAbcStyle()	//NOT és INPUT kapuk nélkül
+{
+	if(isFlagged(MARKED))
+	{
+		return 0;
+	}
+	else
+	{
+		unsigned int size = 1;
+#ifdef VS2010
+		for each(Link* input in inputs)
+#else
+		for(Link* input : inputs)
+#endif
+		{
+			size += input->getInput()->getSizeAbcStyle();
 		}
 		setFlag(MARKED);
 		return size;
@@ -68,7 +113,11 @@ void Gate::resetFlag(unsigned int flag)
 void Gate::resetFlagRecursive(unsigned int flag)
 {
 	resetFlag(flag);
+#ifdef VS2010
 	for each(Link* input in inputs)
+#else
+	for(Link* input : inputs)
+#endif
 	{
 		if(input->getInput()->isFlagged(flag))
 		{
@@ -78,6 +127,21 @@ void Gate::resetFlagRecursive(unsigned int flag)
 }
 
 const set<Gate*>& Gate::getMultiInputs()
+{
+	return multiInputs;
+}
+
+const map<Gate::GatePtr, Link*>& Gate::getMultiInputsWithLink()
+{
+	return multiInputsWithLink;
+}
+
+const set<Gate*>& Gate::getMultiInputsWithSingleOutput()
+{
+	return multiInputs;
+}
+
+const set<Gate*>& Gate::getMultiInputsWithDoubleOutput()
 {
 	return multiInputs;
 }
@@ -148,7 +212,11 @@ void Gate::setTwinSafe(GatePtr twin)
 void Gate::setMarkingRecursively()
 {
 	this->setFlag(MARKED);
+#ifdef VS2010
 	for each(Link* input in inputs)
+#else
+	for(Link* input : inputs)
+#endif
 	{
 		if(!input->getInput()->isFlagged(MARKED))
 		{
@@ -186,12 +254,25 @@ Gate::GatePtr Gate::getConstantFreeTwin()
 	return shared_from_this();
 }
 
+void Gate::removeKeyAndValueFromMap(GatePtr key, Link* value, std::map<GatePtr,Link*>& source)
+{
+	std::map<GatePtr,Link*>::iterator iter(source.find(key));
+	if(iter!=source.end() && iter->second==value)
+	{
+		source.erase(iter);
+	}
+}
+
 void Gate::removeNotGatesRecursively()
 {
 	if(isFlagged(MARKED)) return;
 
 	setFlag(MARKED);
+#ifdef VS2010
 	for each(Link* link in inputs)
+#else
+	for(Link* link : inputs)
+#endif
 	{
 		while(link->getInput()->type == Gate::NOT)
 		{
@@ -217,7 +298,11 @@ void Gate::removeMultiGatesRecursively()
 	if(isFlagged(MARKED)) return;
 
 	setFlag(MARKED);
+#ifdef VS2010
 	for each(Link* link in inputs)
+#else
+	for(Link* link : inputs)
+#endif
 	{
 		if((link->getInput()->type == Gate::MULTI_AND || link->getInput()->type == Gate::MULTI_OR) && link->getInput()->inputs.size()==1)
 		{
@@ -254,10 +339,10 @@ void Gate::addOccurrencesRecursive(MultiGate::occurrenceList& occurrences, int t
 }*/
 
 
-Gate::GatePtr Gate::getDnf()
+/*Gate::GatePtr Gate::getDnf()
 {
 	return shared_from_this();
-}
+}*/
 
 /*Gate::ClauseSet& Gate::getDnf2()
 {
@@ -280,7 +365,11 @@ unsigned int Gate::getLevel()
 	if(!isFlagged(LEVEL))
 	{
 		level = 0;
+#ifdef VS2010
 		for each(Link* inp in inputs)
+#else
+		for(Link* inp : inputs)
+#endif
 		{
 			unsigned int current = inp->getInput()->getLevel();
 			if(current >= level)
@@ -317,13 +406,25 @@ void Gate::simplifyRecursively()
 {
 }
 
+void Gate::simplifyRecursively2()
+{
+}
+
+void Gate::simplifyRecursively3()
+{
+}
+
 void Gate::replaceInputRecursively(GatePtr original, GatePtr newGate)
 {
 	if(incrementMarkedParents() == outputs.size())		//hogy csak olyan kapun változtassunk, ahonnan minden út az 'original' szomszédjához vezet
 	{
+#ifdef VS2010
 		for each(Link* inputLink in inputs)
+#else
+		for(Link* inputLink : inputs)
+#endif
 		{
-			if(inputLink->getInput()->getLevel() < original->getLevel()) {continue;}
+			if(inputLink->getInput()->getLevel() < original->getLevel()) {continue;}	//TODO: getLevel() <= original->getLevel() a fgv elejére
 
 			if(inputLink->getInput() == original)
 			{
@@ -333,6 +434,109 @@ void Gate::replaceInputRecursively(GatePtr original, GatePtr newGate)
 		}
 	}
 }
+
+Gate::GatePtr Gate::replaceInputRecursively2(Gate* original, GatePtr newGate, Link* protectedLink, map<GatePtr,Link*>& sourceInputs, list<GatePtr>& separatedGates)
+{
+	if(incrementMarkedParents() == outputs.size())		//hogy csak olyan kapun változtassunk, ahonnan minden út az 'original' szomszédjához vezet
+	{
+		multiInputsWithLink.erase(original->shared_from_this());	//ha protectedLink az inputok között van, a törlés indokolatlan; így néhány törölhetõ kaput csak következõ iterációban detektálunk TODO kihagyni?
+#ifdef VS2010
+		for each(Link* inputLink in inputs)
+#else
+		for(Link* inputLink : inputs)
+#endif
+		{
+			if(inputLink->getInput()->getLevel() < original->getLevel()) {continue;}	//TODO: megnézni <= -vel
+
+			if(inputLink->getInput() == original->shared_from_this())
+			{
+				if(inputLink != protectedLink)
+				{
+					inputLink->setInput(newGate);
+				}
+			}
+			else
+			{
+				inputLink->setInput( inputLink->getInput()->replaceInputRecursively2(original, newGate, protectedLink, sourceInputs, separatedGates) );
+			}
+		}
+	}
+	return shared_from_this();
+}
+
+Gate::GatePtr Gate::replaceInputRecursively3(Gate* original, GatePtr newGate, Link* protectedLink1, Link* protectedLink2, map<GatePtr,Link*>& sourceInputs, list<GatePtr>& separatedGates)
+{
+	if(incrementMarkedParents() == outputs.size())		//hogy csak olyan kapun változtassunk, ahonnan minden út az 'original' szomszédjához vezet
+	{
+		//getMultiInputsWithLink();
+resetFlag(MULTI_INPUTS_LINK);
+	//multiInputsWithLink.erase(original->shared_from_this());	//ha protectedLink az inputok között van, a törlés indokolatlan; így néhány törölhetõ kaput csak következõ iterációban detektálunk TODO kihagyni?
+		//sourceInputs.erase(original->shared_from_this());
+#ifdef VS2010
+		for each(Link* inputLink in inputs)
+#else
+		for(Link* inputLink : inputs)
+#endif
+		{
+			if(inputLink->getInput()->getLevel() < original->getLevel()) {continue;}	//TODO: megnézni <= -vel
+
+			if(inputLink->getInput() == original->shared_from_this())
+			{
+				if(inputLink != protectedLink1 && inputLink != protectedLink2)
+				{
+					inputLink->setInput(newGate);
+				}
+			}
+			else
+			{
+				inputLink->setInput( inputLink->getInput()->replaceInputRecursively3(original, newGate, protectedLink1, protectedLink2, sourceInputs, separatedGates) );
+			}
+		}
+	}
+	return shared_from_this();
+}
+/*Link* Gate::replaceInputRecursively2(Gate* original, GatePtr newGate, Link* protectedLink)
+{
+	if(incrementMarkedParents() == outputs.size())		//hogy csak olyan kapun változtassunk, ahonnan minden út az 'original' szomszédjához vezet
+	{
+		multiInputs.erase(original);
+		for each(Link* inputLink in inputs)
+		{
+			if(inputLink->getInput()->getLevel() < original->getLevel()) {continue;}	//TODO: megnézni <= -vel
+
+			if(protectedLink)
+			{
+				if(inputLink->getInput() == original->shared_from_this())
+				{
+					if(inputLink != protectedLink)
+					{
+						inputLink->setInput(newGate);
+					}
+				}
+				else if(inputLink->getInput()->type == this->type)
+				{
+					inputLink->getInput()->replaceInputRecursively2(original, newGate, protectedLink);
+				}
+			}
+			else
+			{
+				if(inputLink->getInput() == original->shared_from_this())
+				{
+					protectedLink = inputLink;
+				}
+				else if(inputLink->getInput()->type == this->type)
+				{
+					protectedLink = inputLink->getInput()->replaceInputRecursively2(original, newGate, protectedLink);
+				}
+				else
+				{
+					inputLink->getInput()->replaceInputRecursively2(original, newGate, inputLink);
+				}
+			}		
+		}
+	}
+	return protectedLink;
+}*/
 
 /*void Gate::replaceInputRecursively(GatePtr original, GatePtr newGate)
 {
@@ -359,3 +563,103 @@ void Gate::replaceInputRecursively(GatePtr original, GatePtr newGate)
 		setFlag(MARKED2);
 	}
 }*/
+
+bool Gate::factorizeRecursively()
+{
+	return false;
+}
+
+unsigned int Gate::printInputsRecursively(unsigned int& nextId)
+{
+	if(!isFlagged(MARKED))
+	{
+		setFlag(MARKED);
+		string inputsString("");
+		for(list<Link*>::iterator iter(inputs.begin()); iter!=inputs.end(); ++iter)
+		{
+			//TODO: stringként küldjük valahova, iostream használata nélkül
+			inputsString += " " + to_string(static_cast<long long>((*iter)->getInput()->printInputsRecursively(nextId))); //VC 2010 compatibility
+		}
+		id = nextId++;
+		cout << id <<": " << typeToString(type) << inputsString << endl;
+	}
+	return id;
+}
+
+Gate::gateTypes Gate::getIndirectType()
+{
+	return this->type;
+}
+
+void Gate::removeConstGatesRecursively()	//TODO átnézni helyes-e?
+{
+	if(!isFlagged(MARKED2))
+	{
+		setFlag(MARKED2);
+#ifdef VS2010
+		for each(Link* inputLink in inputs)
+#else
+		for(Link* inputLink : inputs)
+#endif
+		{
+			inputLink->getInput()->removeConstGatesRecursively();
+			gateTypes inpType = inputLink->getInput()->getIndirectType();
+			if(inpType==TRUE_GATE)
+			{
+				inputLink->setInput(make_shared<TrueGate>());
+			}
+			else if(inpType==FALSE_GATE)
+			{
+				inputLink->setInput(make_shared<FalseGate>());
+			}
+		}
+	}
+}
+
+void Gate::removeConstGatesRecursivelyIfFlagged(int flag)
+{
+	if(isFlagged(flag))
+	{
+		resetFlag(flag);
+#ifdef VS2010
+		for each(Link* inputLink in inputs)
+#else
+		for(Link* inputLink : inputs)
+#endif
+		{
+			inputLink->getInput()->removeConstGatesRecursivelyIfFlagged(flag);
+			gateTypes inpType = inputLink->getInput()->getIndirectType();
+			if(inpType==TRUE_GATE)
+			{
+				inputLink->setInput(make_shared<TrueGate>());
+			}
+			else if(inpType==FALSE_GATE)
+			{
+				inputLink->setInput(make_shared<FalseGate>());
+			}
+		}
+	}
+}
+
+std::string Gate::typeToString(int type)
+{
+	switch(type){
+	case INPUT:
+		return "input";
+	case TRUE_GATE:
+		return "true";
+	case FALSE_GATE:
+		return "false";
+	case NOT:
+		return "not";
+	case AND:
+		return "and";
+	case OR:
+		return "or";
+	case MULTI_AND:
+		return "multi-and";
+	case MULTI_OR:
+		return "multi-or";
+	default: return "none";
+	}
+}

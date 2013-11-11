@@ -22,9 +22,13 @@ void ImplicantChart::addMinterm(Implicant& minterm, bool required)
 	}
 
 	//ismétlõdéseket kiszûrjük:
-	for each(Implicant existing in sizeBrackets.front())
+#ifdef VS2010
+	for each(const Implicant& existing in sizeBrackets.front())
+#else
+	for(const Implicant& existing : sizeBrackets.front())
+#endif
 	{
-		if(minterm == existing)
+		if(minterm == existing)		//TODO: elég-e referenciákat hasonlítani?
 		{
 			return;
 		}
@@ -79,14 +83,22 @@ list<Implicant> ImplicantChart::getMinimizedDNF()
 		{
 			if (!implicant->marked)
 			{
+#ifdef VS2010
 				for each(unsigned int id in implicant->mintermIDs)
+#else
+				for(unsigned int id : implicant->mintermIDs)
+#endif
 				{
 					primeChart.addToChart(id, &(*implicant));
 				}
 			}
 		}
 	}
+#ifdef VS2010
 	for each(const Implicant* p_implicant in primeChart.getMinimalDNF())
+#else
+	for(const Implicant* p_implicant : primeChart.getMinimalDNF())
+#endif
 	{
 		result.push_back(*p_implicant);
 	}

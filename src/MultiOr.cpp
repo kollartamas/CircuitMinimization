@@ -20,7 +20,11 @@ bool MultiOr::getValue()
 	if(!isFlagged(MARKED))
 	{
 		value = false;
+#ifdef VS2010
 		for each(Link* inp in inputs)
+#else
+		for(Link* inp : inputs)
+#endif
 		{
 			if(inp->getInput()->getValue())
 			{
@@ -45,7 +49,11 @@ Gate::GatePtr MultiOr::getSingleTwin()
 		else
 		{
 			MultiGatePtr newMulti(make_shared<MultiOr>());
+#ifdef VS2010
 			for each(Link* input in inputs)
+#else
+			for(Link* input : inputs)
+#endif
 			{
 				newMulti->addInput(input->getInput()->getSingleTwin());
 			}
@@ -64,12 +72,12 @@ Gate::GatePtr MultiOr::getConstantFreeTwin()
 		for(list<Link*>::iterator iter(inputs.begin()); iter!=inputs.end(); ++iter)
 		{
 			GatePtr newInput((*iter)->getInput()->getConstantFreeTwin());
-			if(newInput->type == TRUE)	//ha TrueGate van az inputjai között, a twin konstans true
+			if(newInput->type == TRUE_GATE)	//ha TrueGate van az inputjai között, a twin konstans true
 			{
 				setTwinStrong(newInput);
 				return newInput;
 			}
-			else if(newInput->type != FALSE)
+			else if(newInput->type != FALSE_GATE)
 			{
 				newGate->addInput(newInput);
 			}
@@ -92,13 +100,21 @@ void MultiOr::simplifyRecursively()
 	if(!isFlagged(MARKED))
 	{
 		GatePtr constFalse = make_shared<FalseGate>();
+#ifdef VS2010
 		for each(Link* input1 in inputs)
+#else
+		for(Link* input1 : inputs)
+#endif
 		{
 			input1->getInput()->simplifyRecursively();
 			//TODO: összehasonlítani teljesítményt, ha itt történik a konstansok kiváltása
-			if(input1->getInput()->type != FALSE)	//TODO: megnézni szükség van-e erre
+			if(input1->getInput()->type != FALSE_GATE)	//TODO: megnézni szükség van-e erre
 			{
+#ifdef VS2010
 				for each(Link* input2 in inputs)
+#else
+				for(Link* input2 : inputs)
+#endif
 				{
 					if(/*&*/input1/*->getInput()*/ != /*&*/input2/*->getInput()*/)
 					{

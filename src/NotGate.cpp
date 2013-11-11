@@ -3,6 +3,7 @@
 #include "Link.h"
 #include "TrueGate.h"
 #include "FalseGate.h"
+#include "Input.h"
 
 using namespace std;
 
@@ -25,6 +26,12 @@ NotGate::NotGate(GatePtr in)
 NotGate::~NotGate()
 {
 	delete inputs.front();
+}
+
+unsigned int NotGate::getSizeAbcStyle()
+{
+	setFlag(MARKED);
+	return inputs.front()->getInput()->getSizeAbcStyle();
 }
 
 /*void NotGate::deleteRecursively()
@@ -77,6 +84,20 @@ unsigned int NotGate::getPrefixLength()
 	return stringLength;
 }
 
+const set<Implicant>& NotGate::getDnf(unsigned int numOfVariables)
+	//csak a közvetlenül inputhoz kapcsolódó NotGate esetén használható
+{
+	if(!isFlagged(NORMAL_FORM))
+	{
+		setFlag(NORMAL_FORM);
+		vector<int> values(numOfVariables, Implicant::DONT_CARE);
+		values[static_pointer_cast<Input>(inputs.front()->getInput())->id] = Implicant::FALSE;
+		normalForm.clear();
+		normalForm.insert(Implicant(values));
+	}
+	return normalForm;
+}
+
 Gate::GatePtr NotGate::getNegatedTwin()
 {
 	if(!isFlagged(TWIN))
@@ -102,11 +123,11 @@ Gate::GatePtr NotGate::getConstantFreeTwin()
 	{
 		GatePtr newInput(inputs.front()->getInput()->getConstantFreeTwin());
 
-		if(newInput->type == FALSE)
+		if(newInput->type == FALSE_GATE)
 		{
 			setTwinStrong(make_shared<TrueGate>());
 		}
-		else if(newInput->type == TRUE)
+		else if(newInput->type == TRUE_GATE)
 		{
 			setTwinStrong(make_shared<FalseGate>());
 		}
@@ -141,3 +162,99 @@ Gate::GatePtr NotGate::getConstantFreeTwin()
 	//le kell kezelni itt azt az esetet amikor a NotGate nem az output
 	//amikor az output, azt majd máshol!!
 }*/
+
+Gate::GatePtr NotGate::replaceInputRecursively2(Gate* original, GatePtr newGate, Link* protectedLink, map<GatePtr,Link*>& sourceInputs, list<GatePtr>& separatedGates)
+{
+	//TODO: simplifyRecursively2()-ben rekurziót elõrébb hozni és ezt törölni
+	if(outputs.size()==1)	//enélkül törlõdnének olyan elemek, amik szerepelnek multiInputsWithLink-ben
+	{
+		setTwinWeak(shared_from_this());
+		return Gate::replaceInputRecursively2(original, newGate, protectedLink, sourceInputs, separatedGates);
+	}
+
+	if(!isFlagged(TWIN))
+	{
+		setTwinWeak(shared_from_this());
+		if(inputs.front()->getInput()==original->shared_from_this() && inputs.front()!=protectedLink)
+		{
+			if(newGate->type==TRUE_GATE)
+			{
+				separatedGates.push_back(shared_from_this());
+				setTwinStrong(make_shared<FalseGate>());
+			}
+			else if(newGate->type == FALSE_GATE)
+			{
+				separatedGates.push_back(shared_from_this());
+				setTwinStrong(make_shared<TrueGate>());
+			}
+		}
+	}
+
+	return getTwinSafe()==shared_from_this() ? Gate::replaceInputRecursively2(original, newGate, protectedLink, sourceInputs, separatedGates) : getTwinSafe();
+}
+
+Gate::GatePtr NotGate::replaceInputRecursively3(Gate* original, GatePtr newGate, Link* protectedLink1, Link* protectedLink2, map<GatePtr,Link*>& sourceInputs, list<GatePtr>& separatedGates)
+{
+	//TODO: simplifyRecursively2()-ben rekurziót elõrébb hozni és ezt törölni
+	if(outputs.size()==1)	//enélkül törlõdnének olyan elemek, amik szerepelnek multiInputsWithLink-ben
+	{
+		setTwinWeak(shared_from_this());
+		return Gate::replaceInputRecursively3(original, newGate, protectedLink1, protectedLink2, sourceInputs, separatedGates);
+	}
+
+	if(!isFlagged(TWIN))
+	{
+resetFlag(MULTI_INPUTS_LINK);
+		setTwinWeak(shared_from_this());
+		if(inputs.front()->getInput()==original->shared_from_this() && inputs.front()!=protectedLink1 && inputs.front()!=protectedLink2)
+		{
+			if(newGate->type==TRUE_GATE)
+			{
+				separatedGates.push_back(shared_from_this());
+				setTwinStrong(make_shared<FalseGate>());
+			}
+			else if(newGate->type == FALSE_GATE)
+			{
+				separatedGates.push_back(shared_from_this());
+				setTwinStrong(make_shared<TrueGate>());
+			}
+		}
+	}
+
+	return getTwinSafe()==shared_from_this() ? Gate::replaceInputRecursively3(original, newGate, protectedLink1, protectedLink2, sourceInputs, separatedGates) : getTwinSafe();
+}
+
+abc::Abc_Obj_t* NotGate::getAbcNode(abc::Abc_Ntk_t* pNetwork)
+{
+	if(!isFlagged(ABC_NODE))
+	{
+		setFlag(ABC_NODE);
+		pAbcNode = abc::Abc_ObjNot( inputs.front()->getInput()->getAbcNode(pNetwork) );
+	}
+	return pAbcNode;
+}
+
+Gate::gateTypes NotGate::getIndirectType()
+{
+	gateTypes inpType = inputs.front()->getInput()->type;
+	if(inpType==TRUE_GATE)
+	{
+		return FALSE_GATE;
+	}
+	else if(inpType==FALSE_GATE)
+	{
+		return TRUE_GATE;
+	}
+	return this->type;
+}
+
+bool NotGate::factorizeRecursively()
+{
+	bool changed(false);
+	if( !isFlagged(FACTORIZED) )
+	{
+		changed = inputs.front()->getInput()->factorizeRecursively() || changed;
+		setFlag(FACTORIZED);
+	}
+	return changed;
+}

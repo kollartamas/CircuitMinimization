@@ -4,6 +4,7 @@
 #include "Gate.h"
 #include "Input.h"
 #include "MultiGate.h"
+#include "abc.h"
 
 #include <cstdio>
 
@@ -36,17 +37,18 @@ public:
 	void setOutput(Gate::GatePtr out);
 	bool getOutputValue();
 	unsigned int getSize();
+	unsigned int getLevel();
+	unsigned int getSizeAbcStyle();
 	
 	std::string toStringInfix();
 	std::string toStringPrefix();
 	std::string toStringPostfix();
+	void printStructure();
 	
-	void toDnf();
-	void reorderGates();
-	void convertToSingleOptimized();
-	void updateOccurrences(MultiGate::occurrenceIterator iter);
-	void simplify();
-	void simplifyIterative();
+	Gate::GatePtr buildFromDnf(const std::set<Implicant>& dnf);
+	Gate::GatePtr buildFromImplicant(const Implicant& implicant);
+
+	void optimizeAbc();
 };
 
 #endif

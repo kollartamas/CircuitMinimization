@@ -1,5 +1,4 @@
 /* LINTLIBRARY */
-#include "copyright.h"
 #include "port.h"
 #include "utility.h"
 
@@ -11,8 +10,7 @@
  */
 
 char *
-util_print_time(t)
-long t;
+util_print_time(long int t)
 {
     static char s[40];
 

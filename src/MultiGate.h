@@ -20,8 +20,8 @@ public:
 	//TODO: copy constructor
 	~MultiGate();
 	
-	
-	const std::set<Gate*>& getMultiInputs(); 
+	unsigned int getSize();
+	//const std::set<Gate*>& getMultiInputs(); 
 	void addOccurrencesRecursive(occurrenceList& occurrences, int type);
 	bool hasInput(GatePtr input);
 	void replaceInputs(GatePtr input1, GatePtr input2, GatePtr newInput, occurrenceList& occurrences, std::list<MultiGate::occurrenceIterator>& newElements);
@@ -42,8 +42,10 @@ public:
 	virtual void addToStringPostfix(std::string& dest);
 	virtual unsigned int getInfixLength();
 	virtual unsigned int getPrefixLength();
+	virtual const std::set<Implicant>& getDnf(unsigned int numOfVariables);
 	virtual GatePtr getNegatedTwin();
 	virtual GatePtr getCopyTwin();
+	abc::Abc_Obj_t* getAbcNode(abc::Abc_Ntk_t* network);
 };
 
 #endif

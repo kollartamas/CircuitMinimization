@@ -1,6 +1,10 @@
 #include "Link.h"
+//#include <iostream>
 
 using namespace std;
+
+unsigned int Link::constrCall=0;
+unsigned int Link::destrCall=0;
 
 /* Konstruktor
  * Input-output kapcsolatot hoz létre két kapu közt, beállítja a kapuk megfelelõ adattagjait is.
@@ -13,12 +17,14 @@ Link::Link(Gate::GatePtr input, Gate* output):
 	iteratorInInput = --input->outputs.end();
 	output->inputs.push_back(this);
 	iteratorInOutput = --output->inputs.end();
+	constrCall++;
 }
 
 Link::~Link()
 {
 	inputGate->outputs.erase(iteratorInInput);
 	outputGate->inputs.erase(iteratorInOutput);
+	destrCall++;
 }
 
 	

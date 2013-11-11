@@ -1,14 +1,13 @@
 #include "espresso.h"
 
-void set_pair(PLA)
-pPLA PLA;
+int **find_pairing_cost(pPLA PLA, int strategy);
+
+void set_pair(pPLA PLA)
 {
     set_pair1(PLA, TRUE);
 }
 
-void set_pair1(PLA, adjust_labels)
-pPLA PLA;
-bool adjust_labels;
+void set_pair1(pPLA PLA, int adjust_labels)
 {
     int i, var, *paired, newvar;
     int old_num_vars, old_num_binary_vars, old_size, old_mv_start;
@@ -72,13 +71,13 @@ bool adjust_labels;
 	    var1bar = oldlabel[ (pair->var1[var]-1) * 2];
 	    var2bar = oldlabel[ (pair->var2[var]-1) * 2];
 	    (void) sprintf(scratch, "%s+%s", var1bar, var2bar);
-	    PLA->label[newvar] = util_strsav(scratch);
+	    PLA->label[newvar] = strdup(scratch);
 	    (void) sprintf(scratch, "%s+%s", var1bar, var2);
-	    PLA->label[newvar+1] = util_strsav(scratch);
+	    PLA->label[newvar+1] = strdup(scratch);
 	    (void) sprintf(scratch, "%s+%s", var1, var2bar);
-	    PLA->label[newvar+2] = util_strsav(scratch);
+	    PLA->label[newvar+2] = strdup(scratch);
 	    (void) sprintf(scratch, "%s+%s", var1, var2);
-	    PLA->label[newvar+3] = util_strsav(scratch);
+	    PLA->label[newvar+3] = strdup(scratch);
 	}
 	/* Copy the old labels for the unpaired binary vars */
 	i = 0;
@@ -109,9 +108,7 @@ bool adjust_labels;
     FREE(paired);
 }
 
-pcover pairvar(A, pair)
-pcover A;
-ppair pair;
+pcover pairvar(pset_family A, ppair pair)
 {
     register pcube last, p;
     register int val, p1, p2, b1, b0;
@@ -149,9 +146,7 @@ ppair pair;
 
 
 /* delvar -- delete variables from A, minimize the number of column shifts */
-pcover delvar(A, paired)
-pcover A;
-bool paired[];
+pcover delvar(pset_family A, int *paired)
 {
     bool run;
     int first_run, run_length, var, offset = 0;
@@ -210,9 +205,7 @@ bool paired[];
 			    17,18  34,459,425
 			    19,20 654,729,075
 */
-void find_optimal_pairing(PLA, strategy)
-pPLA PLA;
-int strategy;
+void find_optimal_pairing(pPLA PLA, int strategy)
 {
     int i, j, **cost_array;
 
@@ -247,9 +240,7 @@ int strategy;
     EXEC_S(PLA->F=espresso(PLA->F,PLA->D,PLA->R),"ESPRESSO  ",PLA->F);
 }
 
-int **find_pairing_cost(PLA, strategy)
-pPLA PLA;
-int strategy;
+int **find_pairing_cost(pPLA PLA, int strategy)
 {
     int var1, var2, **cost_array;
     int i, j, xnum_binary_vars, xnum_vars, *xpart_size, cost;
@@ -357,8 +348,7 @@ static pcover best_F, best_D, best_R;
 static int pair_minim_strategy;
 
 
-print_pair(pair)
-ppair pair;
+void print_pair(ppair pair)
 {
     int i;
 
@@ -369,9 +359,7 @@ ppair pair;
 }
 
 
-int greedy_best_cost(cost_array_local, pair_p)
-int **cost_array_local;
-ppair *pair_p;
+int greedy_best_cost(int **cost_array_local, ppair *pair_p)
 {
     int i, j, besti, bestj, maxcost, total_cost;
     pset cand;
@@ -409,8 +397,7 @@ ppair *pair_p;
 }
 
 
-ppair pair_best_cost(cost_array_local)
-int **cost_array_local;
+ppair pair_best_cost(int **cost_array_local)
 {
     ppair pair;
     pset candidate;
@@ -428,8 +415,7 @@ int **cost_array_local;
 }
 
 
-int find_best_cost(pair)
-register ppair pair;
+void find_best_cost(register ppair pair)
 {
     register int i, cost;
 
@@ -455,9 +441,7 @@ register ppair pair;
 	4) for phase assignment
 */
 
-pair_all(PLA, pair_strategy)
-pPLA PLA;
-int pair_strategy;
+void pair_all(pPLA PLA, int pair_strategy)
 {
     ppair pair;
     pset candidate;
@@ -498,8 +482,7 @@ int pair_strategy;
 /*
  *  minimize_pair -- called as each pair is generated
  */
-int minimize_pair(pair)
-ppair pair;
+void minimize_pair(ppair pair)
 {
     pcover Fsave, Dsave, Rsave;
     int i, xnum_binary_vars, xnum_vars, *xpart_size;
@@ -573,11 +556,7 @@ ppair pair;
     global_PLA->phase = NULL;
 }
 
-generate_all_pairs(pair, n, candidate, action)
-ppair pair;
-int n;
-pset candidate;
-int (*action)();
+void generate_all_pairs(ppair pair, int n, pset candidate, void (*action) (ppair))
 {
     int i, j;
     pset recur_candidate;
@@ -627,8 +606,7 @@ int (*action)();
     set_free(recur_candidate);
 }
 
-ppair pair_new(n)
-register int n;
+ppair pair_new(register int n)
 {
     register ppair pair1;
 
@@ -640,9 +618,7 @@ register int n;
 }
 
 
-ppair pair_save(pair, n)
-register ppair pair;
-register int n;
+ppair pair_save(register ppair pair, register int n)
 {
     register int k;
     register ppair pair1;
@@ -657,8 +633,7 @@ register int n;
 }
 
 
-int pair_free(pair)
-register ppair pair;
+void pair_free(register ppair pair)
 {
     FREE(pair->var1);
     FREE(pair->var2);

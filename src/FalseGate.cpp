@@ -6,7 +6,7 @@ using namespace std;
 
 FalseGate::FalseGate()
 {
-	this->type = FALSE;
+	this->type = FALSE_GATE;
 	this->value = false;
 }
 
@@ -45,6 +45,15 @@ void FalseGate::addToStringPostfix(std::string& dest)
 	dest += "H ";
 }
 
+const set<Implicant>& FalseGate::getDnf(unsigned int numOfVariables)
+{
+	if(!isFlagged(NORMAL_FORM))
+	{
+		normalForm.clear();
+	}
+	return normalForm;
+}
+
 Gate::GatePtr FalseGate::getNegatedTwin()
 {
 	if(!isFlagged(TWIN))
@@ -69,3 +78,24 @@ Gate::GatePtr FalseGate::getCopyTwin()
 	return getTwinStrong();
 }
 
+abc::Abc_Obj_t* FalseGate::getAbcNode(abc::Abc_Ntk_t* pNetwork)
+{
+	if(!isFlagged(ABC_NODE))
+	{
+		setFlag(ABC_NODE);
+		pAbcNode = abc::Abc_ObjNot( abc::Abc_AigConst1(pNetwork) );
+	}
+	return pAbcNode;
+}
+
+void FalseGate::replaceInputRecursively(GatePtr original, GatePtr newGate)
+{}
+
+Gate::GatePtr FalseGate::replaceInputRecursively2(Gate* original, GatePtr newGate, Link* protectedLink, std::map<GatePtr,Link*>& sourceInputs, std::list<GatePtr>& separatedGates)
+{
+	return shared_from_this();
+}
+Gate::GatePtr FalseGate::replaceInputRecursively3(Gate* original, GatePtr newGate, Link* protectedLink1, Link* protectedLink2, std::map<GatePtr,Link*>& sourceInputs, std::list<GatePtr>& separatedGates)
+{
+	return shared_from_this();
+}

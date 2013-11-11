@@ -4,79 +4,82 @@
 #include "OrGate.h"
 #include "NotGate.h"
 #include "Logger.h"
+#include "Link.h"
+
+#include "main.h"
 
 #include <iostream>
+#include <fstream>
 #include <ctime>
 
 using namespace std;
 
 int main(int argc, char** argv)
 {
-	/*bool a = true;
-	time_t seed = 0;
-	while(a)
-	{
-	//srand((unsigned int)time(&seed));
-	//srand(seed = 1370629149);
-	srand(++seed);
-	cout <<"Random seed: "<<seed<<endl;/*
-	
-	//Circuit halozat2(2, 3, true);
-	Circuit halozat1(5, 12, true);
-	DnfCircuit dnf1(halozat1);
-	//cout << halozat1.toStringInfix() << endl;
-	//cout << dnf1.toStringInfix() << endl;
-	DnfCircuit dnf2(dnf1);
-	a = (halozat1 == dnf2);
-	halozat1.simplify();
-	cout << "simplify done" << endl;
-	dnf1.minimizeEspresso();
-	cout << "espresso done" << endl;
-	dnf2.minimizeQuineMcClusky();
-	cout << "QM done" << endl;
-	a = (halozat1 == dnf1) && (halozat1 == dnf2);
-	cout << a << endl;*/
+	Logger& logger(Logger::getLogger());
+	/*ofstream logfile("log.txt", ios::out);		//logger outputot fájlba
+	logger.setOutput(logfile);*/
 
-	{
-	time_t seed;
-	srand((unsigned int)time(&seed));
+	//abc inicializálása
+	abc::Abc_Start();
+	abc::Abc_Frame_t* pFrame = abc::Abc_FrameGetGlobalFrame();
+	abc::Cmd_CommandExecute( pFrame, string("source abc.rc").c_str() );
+
+	time_t seed=0;
+	time(&seed);
 	cout <<"Random seed: "<<seed<<endl;
+	srand(seed++);
 
-	Circuit original(6, 50, false);
-	cout << original.toStringInfix() << endl;
+	for(int i=0; i<50; i++)
+	{
+		cout <<"Circuit number: "<< i <<endl;
+		Circuit original(20, 100, false);
 
-	Circuit circ1(original);
-	Logger::resetEntry();
-	Logger::currentEntry.startingSize = original.getSize();
-	Logger::currentEntry.startTime = clock();
-	circ1.simplify();
-	Logger::currentEntry.finishTime = clock();
-	Logger::currentEntry.finalSize = circ1.getSize();
-	Logger::showStats1();
+		//Saját alg. implementáció:
+		logger.startEntry("Sajat");
+		CircuitWithoutNotGate circ1(original);
+		circ1.optimizeIteratively();
+		logger.storeEntry();
+		//circ1.toStringInfix();		//kiírás formulaként
+		//circ1.printStructure();		//a hálózat felépítését írja ki
 
-	Logger::currentEntry.startingSize = original.getSize();
-	Logger::currentEntry.startTime = clock();
-	DnfCircuit dnf1(original);
-	Logger::currentEntry.dnfTime = clock();
-	Logger::currentEntry.dnfSize = dnf1.getSize();
-	dnf1.minimizeEspresso();
-	Logger::currentEntry.finishTime = clock();
-	Logger::currentEntry.finalSize = dnf1.getSize();
-	Logger::showStats1();
-	
-	Logger::resetEntry();
-	Logger::currentEntry.startingSize = original.getSize();
-	Logger::currentEntry.startTime = clock();
-	DnfCircuit dnf2(original);
-	Logger::currentEntry.dnfTime = clock();
-	Logger::currentEntry.dnfSize = dnf2.getSize();
-	dnf2.minimizeQuineMcClusky();
-	Logger::currentEntry.finishTime = clock();
-	Logger::currentEntry.finalSize = dnf2.getSize();
-	Logger::showStats1();
+		//Abc:
+		logger.startEntry("Abc");
+		Circuit circ2(original);
+		circ2.optimizeAbc();
+		logger.storeEntry();
+		logger.printStats();
 
+		//Espresso:
+		logger.startEntry("Espresso");
+		logger.setData(Logger::STARTING_SIZE, original.getSize());
+		logger.setData(Logger::STARTING_LEVEL, original.getLevel());
+		logger.updateTimer();
+		DnfCircuit circ3(original);
+		circ3.minimizeEspresso();
+		logger.storeEntry();
+		//logger.printStats();
 
+		//Quine-McClusky:
+		/*logger.startEntry("QMC");
+		logger.setData(Logger::STARTING_SIZE, original.getSize());
+		logger.setData(Logger::STARTING_LEVEL, original.getLevel());
+		logger.updateTimer();
+		DnfCircuit circ4(original);
+		circ4.minimizeQuineMcClusky();
+		logger.storeEntry();*/
+
+		logger.printStats();
+		
+		/*if(i==0){logger.printCsvHeader();}			//CSV formátumú loghoz
+		logger.printCsvLine();*/
+
+		logger.clearEntries();
+		//if(!(original==circ1)) {system("PAUSE"); break;}
+		//if(!(original==circ2)) {system("PAUSE"); break;}
+		//if(!(original==circ3)) {system("PAUSE"); break;}
+		//if(!(original==circ4)) {system("PAUSE"); break;}
 	}
-	//cout << Gate::constrCall<<" "<<Gate::destrCall<<endl;
+	abc::Abc_Stop();
 	system("PAUSE");
 }

@@ -2,15 +2,17 @@
 #define DNF_CIRCUIT_H
 
 #include "Circuit.h"
-#include "Quine_McClusky\Implicant.h"
+#include "CircuitWithoutNotGate.h"
+#include "Implicant.h"
+#include "PlaFormatException.h"
 
 #include <cstdio>
 
-class DnfCircuit : public Circuit
+class DnfCircuit : public CircuitWithoutNotGate
 {
 private:
-	Gate::GatePtr buildFromImplicantList(std::list<Implicant>& implicantList);
-	Gate::GatePtr buildFromImplicant(Implicant& implicant);
+	Gate::GatePtr buildFromImplicantList(const std::list<Implicant>& implicantList);
+	Gate::GatePtr buildFromImplicant(const Implicant& implicant);
 	std::list<Implicant> getMintermList();
 	std::list<Implicant> getImplicantList();
 
@@ -22,8 +24,9 @@ public:
 	DnfCircuit(unsigned int variables, unsigned int clauses);
 	DnfCircuit(DnfCircuit& other);
 	DnfCircuit(Circuit& other);
+	DnfCircuit(CircuitWithoutNotGate& other);
 
-	FILE* toPlaFormat();
+	FILE* toPlaFormat() throw (PlaFormatException);
 	void readPlaFormat(FILE* plaFile);
 	
 	void minimizeEspresso();

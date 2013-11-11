@@ -2,6 +2,8 @@
 #include "Implicant.h"
 
 #include <list>
+#include <cassert>
+#include <climits>
 //#include <exception>
 //#include <iostream>
 
@@ -31,7 +33,11 @@ list<const Implicant*> PrimeChart::getEssentialPrimes()
 		{
 			const Implicant* implicant = coveringImplicants[i].front();
 			essentialPrimes.push_back(implicant);
+#ifdef VS2010
 			for each(unsigned int coveredID in implicant->mintermIDs)
+#else
+			for(unsigned int coveredID : implicant->mintermIDs)
+#endif
 			{
 				covered[coveredID] = true;
 			}
@@ -44,7 +50,8 @@ list<const Implicant*> PrimeChart::getMinimalDNF()
 {
 	if(!foundMinimal)
 	{
-		buildSubtreeFromPosition(getEssentialPrimes(), 0);
+		list<const Implicant*> essentialPrimes(getEssentialPrimes());	//move constructor
+		buildSubtreeFromPosition(essentialPrimes, 0);
 		foundMinimal = true;
 	}
 	return bestDNF;
@@ -56,18 +63,22 @@ void PrimeChart::buildSubtreeFromPosition(list<const Implicant*>& currentDNF, un
 	{
 		if(!covered[i])
 		{
-			//ez az eset nem fordulhat elõ helyes adatokkal:
-			if(coveringImplicants[i].size()==0)
-			{
-				throw exception("Hiba: nem talaltam megfelelo DNF-et");
-			}
+			assert(!coveringImplicants[i].empty());
 
+#ifdef VS2010
 			for each(const Implicant* implicant in coveringImplicants[i])
+#else
+			for(const Implicant* implicant : coveringImplicants[i])
+#endif
 			{
 				currentDNF.push_back(implicant);
 				//beállítjuk a megfelelõ mintermeket lefedettre, és feljegyezzük a backtracking miatt
 				list<int> setToCovered;
+#ifdef VS2010
 				for each(unsigned int coveredID in implicant->mintermIDs)
+#else
+				for(unsigned int coveredID : implicant->mintermIDs)
+#endif
 				{
 					if(!covered[coveredID])
 					{
@@ -84,7 +95,11 @@ void PrimeChart::buildSubtreeFromPosition(list<const Implicant*>& currentDNF, un
 				}
 
 				//visszaállítjuk a mintermek fedettségét az eredetire
+#ifdef VS2010
 				for each(unsigned int coveredID in setToCovered)
+#else
+				for(unsigned int coveredID : setToCovered)
+#endif
 				{
 					covered[coveredID] = false;
 				}

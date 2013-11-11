@@ -1,8 +1,8 @@
 #include "espresso.h"
 
-static void fcube_is_covered();
-static void ftautology();
-static bool ftaut_special_cases();
+static void fcube_is_covered(pset *T, pset c, sm_matrix *table);
+static void ftautology(pset *T, sm_matrix *table);
+static bool ftaut_special_cases(pset *T, sm_matrix *table);
 
 
 static int Rp_current;
@@ -12,8 +12,7 @@ static int Rp_current;
  */
 
 pcover
-irredundant(F, D)
-pcover F, D;
+irredundant(pset_family F, pset_family D)
 {
     mark_irredundant(F, D);
     return sf_inactive(F);
@@ -25,8 +24,7 @@ pcover F, D;
  */
 
 void
-mark_irredundant(F, D)
-pcover F, D;
+mark_irredundant(pset_family F, pset_family D)
 {
     pcover E, Rt, Rp;
     pset p, p1, last;
@@ -77,9 +75,7 @@ pcover F, D;
  */
 
 void
-irred_split_cover(F, D, E, Rt, Rp)
-pcover F, D;
-pcover *E, *Rt, *Rp;
+irred_split_cover(pset_family F, pset_family D, pset_family *E, pset_family *Rt, pset_family *Rp)
 {
     register pcube p, last;
     register int index;
@@ -140,8 +136,7 @@ pcover *E, *Rt, *Rp;
  */
 
 sm_matrix *
-irred_derive_table(D, E, Rp)
-pcover D, E, Rp;
+irred_derive_table(pset_family D, pset_family E, pset_family Rp)
 {
     register pcube last, p, *list;
     sm_matrix *table;
@@ -192,8 +187,7 @@ pcover D, E, Rp;
 
 /* cube_is_covered -- determine if a cubelist "covers" a single cube */
 bool
-cube_is_covered(T, c)
-pcube *T, c;
+cube_is_covered(pset *T, pset c)
 {
     return tautology(cofactor(T,c));
 }
@@ -202,8 +196,8 @@ pcube *T, c;
 
 /* tautology -- answer the tautology question for T */
 bool
-tautology(T)
-pcube *T;         /* T will be disposed of */
+tautology(pset *T)
+                  /* T will be disposed of */
 {
     register pcube cl, cr;
     register int best, result;
@@ -235,8 +229,8 @@ pcube *T;         /* T will be disposed of */
  */
 
 bool
-taut_special_cases(T)
-pcube *T;			/* will be disposed if answer is determined */
+taut_special_cases(pset *T)
+         			/* will be disposed if answer is determined */
 {
     register pcube *T1, *Tsave, p, ceil=cube.temp[0], temp=cube.temp[1];
     pcube *A, *B;
@@ -320,9 +314,7 @@ start:
 
 /* fcube_is_covered -- determine exactly how a cubelist "covers" a cube */
 static void
-fcube_is_covered(T, c, table)
-pcube *T, c;
-sm_matrix *table;
+fcube_is_covered(pset *T, pset c, sm_matrix *table)
 {
     ftautology(cofactor(T,c), table);
 }
@@ -330,9 +322,9 @@ sm_matrix *table;
 
 /* ftautology -- find ways to make a tautology */
 static void
-ftautology(T, table)
-pcube *T;         	/* T will be disposed of */
-sm_matrix *table;
+ftautology(pset *T, sm_matrix *table)
+                  	/* T will be disposed of */
+                 
 {
     register pcube cl, cr;
     register int best;
@@ -362,9 +354,9 @@ sm_matrix *table;
 }
 
 static bool
-ftaut_special_cases(T, table)
-pcube *T;                 /* will be disposed if answer is determined */
-sm_matrix *table;
+ftaut_special_cases(pset *T, sm_matrix *table)
+                          /* will be disposed if answer is determined */
+                 
 {
     register pcube *T1, *Tsave, p, temp = cube.temp[0], ceil = cube.temp[1];
     int var, rownum;

@@ -3,23 +3,22 @@
 #include "espresso.h"
 #include "signature.h"
 
-int setup_bw();
-int black_white();
-int split_list();
-int merge_list();
+void setup_bw(pset_family R, pset c);
+int black_white(void);
+void split_list(pset_family R, int v);
+void merge_list(void);
 
-static int alloc_list();
-static int free_list();
-static int init_list();
-static int delete();
-static int insert();
-static int print_links();
-int print_bw();
+static void alloc_list(int size);
+static void free_list(void);
+static void init_list(int size);
+static void delete(int element);
+static void insert(int element);
+static void print_links(int size, int *list);
+void print_bw(int size);
 
-static int alloc_stack();
-static int free_stack();
-static int clear();
-static int print_stack();
+static void alloc_stack(int size);
+static void free_stack(void);
+static void clear(void);
 
 static int white_head, white_tail;
 static int black_head, black_tail;
@@ -30,9 +29,7 @@ static int *stack_head, *stack_tail, stack_p;
 
 static pcover BB;
 
-static int
-alloc_list(size)
-int size;
+static void alloc_list(int size)
 {
 	forward = (int *)calloc(size, sizeof(int));
 	backward =(int *)calloc(size, sizeof(int));
@@ -42,16 +39,13 @@ int size;
 	}
 }
 
-static int
-free_list()
+static void free_list(void)
 {
 	free(forward);
 	free(backward);
 }
 
-static int
-init_list(size)
-int size;
+static void init_list(int size)
 {
 	int i;
 	for(i = 0; i < size; i++){
@@ -66,9 +60,7 @@ int size;
 	black_tail = -1;
 }
 
-static int
-delete(element)
-int element;
+static void delete(int element)
 {
 	forward_link = forward[element];
 	backward_link = backward[element];
@@ -93,9 +85,7 @@ int element;
 	}	
 }
 
-static int
-insert(element)
-int element;
+static void insert(int element)
 {
 	if(black_head != -1){
 		forward[element] = black_head;
@@ -109,8 +99,7 @@ int element;
 	}
 }
 
-int
-merge_list()
+void merge_list(void)
 {
 	if(white_head != -1){
 		if(black_head != -1){
@@ -127,9 +116,7 @@ merge_list()
 	}
 }
 
-static int
-print_links(size,list)
-int size, *list;
+static void print_links(int size, int *list)
 {
 	int i;
 	for(i = 0; i < size; i++){
@@ -138,9 +125,7 @@ int size, *list;
 	printf("\n");
 }
 
-int
-print_bw(size)
-int size;
+void print_bw(int size)
 {
 	printf("white_head %d\twhite_tail %d\tblack_head %d\tblack_tail %d\n",
 		white_head,white_tail,black_head,black_tail);
@@ -148,9 +133,7 @@ int size;
 	print_links(size,backward);
 }
 
-static int
-alloc_stack(size)
-int size;
+static void alloc_stack(int size)
 {
 	stack_head = (int *)calloc(size,sizeof(int));
 	stack_tail = (int *)calloc(size,sizeof(int));
@@ -160,52 +143,30 @@ int size;
 	}
 }
 
-static int
-free_stack()
+static void free_stack(void)
 {
 	free(stack_head);
 	free(stack_tail);
 }
 
-int
-push_black_list()
+void push_black_list(void)
 {
 	stack_head[stack_p] = black_head;
 	stack_tail[stack_p++] = black_tail;
 }
 
-int
-pop_black_list()
+void pop_black_list(void)
 {
 	black_head =  stack_head[--stack_p];
 	black_tail =  stack_tail[stack_p];
 }
 
-static int
-clear()
+static void clear(void)
 {
 	stack_p = 0;
 }
 
-static int
-print_stack()
-{
-	int i;
-	printf("head\n");
-	for(i = stack_p - 1; i >= 0; i--){
-		printf("%d%c",stack_head[i],i%10?'\t':'\n');
-	}
-	printf("\ntail\n");
-	for(i = stack_p - 1; i >= 0; i--){
-		printf("%d%c",stack_tail[i],i%10?'\t':'\n');
-	}
-	printf("\n");
-}
-
-int
-setup_bw(R,c)
-pcover R;
-pcube c;
+void setup_bw(pset_family R, pset c)
 {
 	pcube out_part_r;
 	int size = R->count;
@@ -250,16 +211,14 @@ pcube c;
 	free_cube(out_part_r);
 }
 
-int
-free_bw()
+void free_bw(void)
 {
 	free_list();
 	free_stack();
 	free_cover(BB);
 }
 
-int
-black_white()
+int black_white(void)
 {
 	int b_index, w_index;
 	int containment;
@@ -278,16 +237,13 @@ black_white()
 	return TRUE;
 }
 
-reset_black_list()
+void reset_black_list(void)
 {
 	black_head = black_tail = -1;
 }
 
 
-int
-split_list(R,v)
-pcover R;
-int v;
+void split_list(pset_family R, int v)
 {
 	int index, next_index;;
 
@@ -307,9 +263,7 @@ static int *variable_backward_chain; /* Previous */
 static int variable_head; /* first element in the list */
 static int variable_tail; /* last element in the list */
 
-int
-variable_list_alloc(size)
-int size;
+void variable_list_alloc(int size)
 {
 	variable_forward_chain = (int *)calloc(size, sizeof(int));
 	variable_backward_chain =(int *)calloc(size, sizeof(int));
@@ -319,10 +273,7 @@ int size;
 	}
 }
 
-int
-variable_list_init(reduced_c_free_count, reduced_c_free_list)
-int reduced_c_free_count;
-int *reduced_c_free_list;
+void variable_list_init(int reduced_c_free_count, int *reduced_c_free_list)
 {
 	int i;
 	int v, next_v;
@@ -346,9 +297,7 @@ int *reduced_c_free_list;
 
 }
 
-int
-variable_list_delete(element)
-int element;
+void variable_list_delete(int element)
 {
 	variable_count--;
 	forward_link = variable_forward_chain[element];
@@ -374,9 +323,7 @@ int element;
 	}	
 }
 
-int
-variable_list_insert(element)
-int element;
+void variable_list_insert(int element)
 {
 	variable_count++;
 	if(variable_head != -1){
@@ -392,16 +339,12 @@ int element;
 	}
 }
 
-int
-variable_list_empty()
+int variable_list_empty(void)
 {
 	return variable_count ? FALSE : TRUE;
 }
 
-int
-get_next_variable(pv,pphase,R)
-int *pv,*pphase;
-pcover R;
+void get_next_variable(int *pv, int *pphase, pset_family R)
 {
 	int v,e0,e1;
 	int e0_black_count,e1_black_count;
@@ -446,7 +389,7 @@ pcover R;
 	*pphase = max_phase;
 }
 
-print_variable_list()
+void print_variable_list(void)
 {
 	printf("Variable_Forward_Chain:\n");
 	print_links(cube.num_binary_vars,variable_forward_chain);

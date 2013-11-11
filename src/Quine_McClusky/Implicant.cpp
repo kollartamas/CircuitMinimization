@@ -118,6 +118,18 @@ void Implicant::addMintermsToListFromPosition(unsigned int position, std::list<I
 	mintermList.push_back(*this);
 }
 
+Implicant& Implicant::operator=(const Implicant& other)
+{
+	this->numOfVariables = other.numOfVariables;
+	this->numOfTrues = other.numOfTrues;
+	this->numOfDontCares = other.numOfDontCares;
+	this->values = other.values;
+	this->valid = other.valid;
+	this->mintermIDs = other.mintermIDs;
+
+	return *this;
+}
+
 bool Implicant::operator==(const Implicant& other) const
 {
 	if(this->numOfVariables!=other.numOfVariables
@@ -137,8 +149,26 @@ bool Implicant::operator==(const Implicant& other) const
 	return true;
 }
 
-
 bool Implicant::operator<(const Implicant& other) const
 {
+	if(!this->valid && !other.valid)
+	{
+		return false;
+	}
 	return lexicographical_compare(this->values.begin(), this->values.end(), other.values.begin(), other.values.end());
+}
+
+Implicant Implicant::operator&(const Implicant& other) const
+{
+	Implicant result(*this);
+	for(unsigned int i=0; i<numOfVariables;i++)
+	{
+		result.values[i] &= other.values[i];
+		if(result.values[i] == INVALID)
+		{
+			result.valid = false;
+			break;
+		}
+	}
+	return result;
 }

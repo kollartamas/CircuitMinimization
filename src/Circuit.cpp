@@ -6,8 +6,13 @@
 #include "OrGate.h"
 #include "Link.h"
 #include "MultiGate.h"
+#include "Logger.h"
+
+#include "main.h"
 
 #include <set>
+
+#include <iostream>	//ideiglenes
 
 using namespace std;
 
@@ -139,7 +144,11 @@ bool Circuit::operator == (Circuit& other)
 		(*this)[i].setValue(false);
 		other[i].setValue(false);
 	}
-	
+/*for(unsigned int i=0; i<inputs.size(); i++)
+{
+cout << (*this)[i].getValue() <<" ";
+}
+cout << endl;	*/
 	if(this->getOutputValue() != other.getOutputValue()) {return false;}
 	
 	unsigned int currentIndex = 0;
@@ -157,7 +166,11 @@ bool Circuit::operator == (Circuit& other)
 			other[currentIndex].setValue(true);
 			currentIndex = 0;
 			//nincs több átvitel, tesztelhetõ az output értéke
-
+/*for(unsigned int i=0; i<inputs.size(); i++)
+{
+cout << (*this)[i].getValue() <<" ";
+}
+cout << endl;*/
 			if(this->getOutputValue() != other.getOutputValue())
 			{
 				return false;
@@ -187,6 +200,20 @@ bool Circuit::getOutputValue()
 unsigned int Circuit::getSize()
 {
 	unsigned int size = output->getSize();
+	output->resetFlagRecursive(Gate::MARKED);
+	return size;
+}
+
+unsigned int Circuit::getLevel()
+{
+	unsigned int level = output->getLevel();
+	output->resetFlagRecursive(Gate::LEVEL);
+	return level;
+}
+
+unsigned int Circuit::getSizeAbcStyle()
+{
+	unsigned int size = output->getSizeAbcStyle();
 	output->resetFlagRecursive(Gate::MARKED);
 	return size;
 }
@@ -249,277 +276,173 @@ void Circuit::removeMultiGates()
 	output->resetFlagRecursive(Gate::MARKED | Gate::TWIN);
 }
 
-void Circuit::toDnf()
+Gate::GatePtr Circuit::buildFromDnf(const std::set<Implicant>& dnf)
 {
-	//list<Gate::GatePtr> garbage;	//az itt tárolt shared_ptr-ek biztosítják, hogy az algoritmus alatt érvényes maradjon twin-ben a weak_ptr
-	Gate::GatePtr oldOutput(output);
-	output = output->getDnf();
-
-	output->setMarkingRecursively();
-	output->resetFlagRecursive(Gate::TWIN | Gate::MARKED );
+	/*if(dnf.empty())
+	{
+		return make_shared<FalseGate>();
+	}
+	else
+	{*/
+	Gate::GatePtr retVal(make_shared<FalseGate>());
+		/*set<Implicant>::iterator iter(dnf.begin());
+		Gate::GatePtr top(buildFromImplicant(*iter));
+		for(++iter; iter!=dnf.end(); ++iter)
+		{
+			top = make_shared<OrGate>(top, buildFromImplicant(*iter));
+		}*/
+	list<Gate::GatePtr> gateQueue;
+	for(set<Implicant>::iterator iter(dnf.begin()); iter!=dnf.end(); ++iter)
+	{
+		gateQueue.push_back(buildFromImplicant(*iter));
+	}
+	if(gateQueue.size()==1)
+	{
+		retVal = gateQueue.front();
+	}
+	else if(!gateQueue.empty())	//kiegyensúlyozva építjük fel
+		for(;;)
+		{
+			Gate::GatePtr inp1(gateQueue.front());
+			gateQueue.pop_front();
+			Gate::GatePtr inp2(gateQueue.front());
+			gateQueue.pop_front();
+			if(gateQueue.empty())
+			{
+				retVal = make_shared<OrGate>(inp1, inp2);
+				break;
+			}
+			else
+			{
+				gateQueue.push_back(make_shared<OrGate>(inp1, inp2));
+			}
+		}
+	return retVal;
 }
 
-void Circuit::reorderGates()
+Gate::GatePtr Circuit::buildFromImplicant(const Implicant& implicant)
 {
-	removeNotGates();
-	Gate::GatePtr newOutput = output->getMultiTwin();
-	if(output==newOutput){return;}
-	//output->deleteRecursively();
-	output = newOutput;
-	convertToSingleOptimized();
+	if(!implicant.valid)
+	{
+		return make_shared<FalseGate>();
+	}
+	else if(implicant.numOfDontCares == implicant.numOfVariables)
+	{
+		return make_shared<TrueGate>();
+	}
+	else
+	{
+		list<Gate::GatePtr> gateQueue;
+		for(unsigned int i=0; i<implicant.values.size(); i++)
+		{
+			if(implicant.values[i] == Implicant::TRUE)
+			{
+				gateQueue.push_back(inputs[i]);
+			}
+			else if(implicant.values[i] == Implicant::FALSE)
+			{
+				gateQueue.push_back(make_shared<NotGate>(inputs[i]));
+			}
+		}
+		if(gateQueue.size()==1)
+		{
+			return gateQueue.front();
+		}
+		for(;;)	//kiegyensúlyozva építjük fel
+		{
+			Gate::GatePtr inp1(gateQueue.front());
+			gateQueue.pop_front();
+			Gate::GatePtr inp2(gateQueue.front());
+			gateQueue.pop_front();
+			if(gateQueue.empty())
+			{
+				return make_shared<AndGate>(inp1, inp2);
+			}
+			else
+			{
+				gateQueue.push_back(make_shared<AndGate>(inp1, inp2));
+			}
+		}
+		return NULL;
+	}
 }
 
-void Circuit::convertToSingleOptimized()
+void Circuit::printStructure()
 {
-	MultiGate::occurrenceList occurrences;
-	output->addOccurrencesRecursive(occurrences, Gate::MULTI_AND);
+	unsigned int startIndex = inputs.size();
+	output->printInputsRecursively(startIndex);
 	output->resetFlagRecursive(Gate::MARKED);
-
-	struct occurrenceComparator
-	{
-		bool operator()(const MultiGate::occurrenceIterator& left, const MultiGate::occurrenceIterator& right)
-		{
-			if(left->second.size()>right->second.size()) {return true;}
-			if(left->second.size()<right->second.size()) {return false;}
-			return (left->first < right->first);
-		}
-	};
-	set<MultiGate::occurrenceIterator, occurrenceComparator> occurrencesOrdered;	//egy set, ami elsõsorban az iterator által mutatott list hossza alapján rendez, fordított sorrendben
-	for(MultiGate::occurrenceIterator i=occurrences.begin(); i!=occurrences.end(); i++)
-	{
-		occurrencesOrdered.insert(i);
-	}
-
-	while(!occurrencesOrdered.empty())
-	{
-		MultiGate::occurrenceIterator highest(*occurrencesOrdered.begin());
-		occurrencesOrdered.erase(occurrencesOrdered.begin());
-
-		updateOccurrences(highest);
-		if(occurrencesOrdered.empty() || highest->second.size()>=(*occurrencesOrdered.begin())->second.size())
-		{
-			if(highest->second.empty())
-			{
-				occurrencesOrdered.clear();	//ha üres a lista, az összes további is üres lenne, nem kell tovább menni
-				break;
-			}
-			
-			Gate::GatePtr newGate = make_shared<AndGate>(highest->first.first, highest->first.second);
-			list<MultiGate::occurrenceIterator> newElements;	//az új Gate-hez tartozó occurrenceIterator-ok
-			for(list<MultiGate::MultiGatePtr>::iterator i=highest->second.begin(); i!=highest->second.end(); i++)
-			{
-				(*i)->replaceInputs(highest->first.first, highest->first.second, newGate, occurrences, newElements);
-			}
-			for(list<MultiGate::occurrenceIterator>::iterator i = newElements.begin(); i!=newElements.end(); i++)
-			{
-				occurrencesOrdered.insert(*i);
-			}
-		}
-		else
-		{
-			occurrencesOrdered.insert(highest);
-		}
-	}
-	
-	//removeMultiGates();
-	output = output->getSingleTwin();
-	output->resetFlagRecursive(Gate::TWIN);
-	occurrences.clear();
-	output->addOccurrencesRecursive(occurrences, Gate::MULTI_OR);
-	output->resetFlagRecursive(Gate::MARKED);
-
-	for(MultiGate::occurrenceIterator i=occurrences.begin(); i!=occurrences.end(); i++)
-	{
-		occurrencesOrdered.insert(i);
-	}
-
-	while(!occurrencesOrdered.empty())
-	{
-		MultiGate::occurrenceIterator highest(*occurrencesOrdered.begin());
-		occurrencesOrdered.erase(occurrencesOrdered.begin());
-
-		updateOccurrences(highest);
-		if(occurrencesOrdered.empty() || highest->second.size()>=(*occurrencesOrdered.begin())->second.size())
-		{
-			if(highest->second.empty())
-			{
-				occurrencesOrdered.clear();	//ha üres a lista, az összes további is üres lenne, nem kell tovább menni
-				break;
-			}
-			
-			Gate::GatePtr newGate = make_shared<OrGate>(highest->first.first, highest->first.second);
-			list<MultiGate::occurrenceIterator> newElements;	//az új Gate-hez tartozó occurrenceIterator-ok
-			for(list<MultiGate::MultiGatePtr>::iterator i=highest->second.begin(); i!=highest->second.end(); i++)
-			{
-				(*i)->replaceInputs(highest->first.first, highest->first.second, newGate, occurrences, newElements);
-			}
-			for(list<MultiGate::occurrenceIterator>::iterator i = newElements.begin(); i!=newElements.end(); i++)
-			{
-				occurrencesOrdered.insert(*i);
-			}
-		}
-		else
-		{
-			occurrencesOrdered.insert(highest);
-		}
-	}
-	
-	//removeMultiGates();
-	output = output->getSingleTwin();
-	output->resetFlagRecursive(Gate::TWIN);
 }
 
-/*void Circuit::reorderGates()
+#include "mainInt.h"
+
+void Circuit::optimizeAbc()
 {
-	removeNotGates();
-	Gate::GatePtr newOutput = output->getMultiTwin();
-	if(output==newOutput){return;}
-	//output->deleteRecursively();
+	//abc::Abc_Start();	//main-be átrakva
 
-	MultiGate::occurrenceList occurrences;
-	newOutput->addOccurrencesRecursive(occurrences, Gate::MULTI_AND);
-	newOutput->resetFlagRecursive(Gate::MARKED);
+	//And-Inverter gráf létrehozása
+	abc::Abc_Ntk_t* pAig;
+	pAig = abc::Abc_NtkAlloc( abc::ABC_NTK_STRASH, abc::ABC_FUNC_AIG, 1 );
+	char * pName = "newAig";
+	pAig->pName = abc::Extra_UtilStrsav( pName );
+	//kapuk és output építése:
+	abc::Abc_Obj_t* pOut = abc::Abc_NtkCreatePo(pAig);
+	abc::Abc_ObjAddFanin( pOut, output->getAbcNode(pAig) );
+	abc::Abc_AigCleanup( (abc::Abc_Aig_t*)pAig->pManFunc );	//output nélküli kapuk törlése
 
-	struct occurrenceComparator
-	{
-		bool operator()(const MultiGate::occurrenceIterator& left, const MultiGate::occurrenceIterator& right)
-		{
-			if(left->second.size()>right->second.size()) {return true;}
-			if(left->second.size()<right->second.size()) {return false;}
-			return (left->first < right->first);
-		}
-	};
-	set<MultiGate::occurrenceIterator, occurrenceComparator> occurrencesOrdered;	//egy set, ami elsõsorban az iterator által mutatott list hossza alapján rendez, fordított sorrendben
-	for(MultiGate::occurrenceIterator i=occurrences.begin(); i!=occurrences.end(); i++)
-	{
-		occurrencesOrdered.insert(i);
-	}
+	abc::Abc_Frame_t* pFrame = abc::Abc_FrameGetGlobalFrame();
+	abc::Abc_FrameSetCurrentNetwork(pFrame, pAig);
 
-	while(!occurrencesOrdered.empty())
-	{
-		MultiGate::occurrenceIterator highest(*occurrencesOrdered.begin());
-		occurrencesOrdered.erase(occurrencesOrdered.begin());
+	//logger indítása:
+#ifdef LOG_MAX_GATENUM
+	Logger::getLogger().setData(Logger::STARTING_GATENUM, Gate::constrCall-Gate::destrCall);
+#endif
+#ifdef LOG_SIZE
+	Logger::getLogger().setData(Logger::STARTING_SIZE, pFrame->pNtkCur->nObjs);	//NtkCur: current network nObjs: number of objects
+	Logger::getLogger().setData(Logger::DNF_SIZE, 0);
+#endif
+#ifdef LOG_LEVEL
+	Logger::getLogger().setData(Logger::STARTING_LEVEL, pFrame->pNtkCur->LevelMax);
+#endif
+#ifdef LOG_TIME
+	Logger::getLogger().setData(Logger::DNF_TIME, 0);
+	Logger::getLogger().updateTimer();
+#endif
 
-		updateOccurrences(highest);
-		if(occurrencesOrdered.empty() || highest->second.size()>=(*occurrencesOrdered.begin())->second.size())
-		{
-			if(highest->second.empty())
-			{
-				occurrencesOrdered.clear();	//ha üres a lista, az összes további is üres lenne, nem kell tovább menni
-				break;
-			}
-			
-			Gate::GatePtr newGate = make_shared<AndGate>(highest->first.first, highest->first.second);
-			list<MultiGate::occurrenceIterator> newElements;	//az új Gate-hez tartozó occurrenceIterator-ok
-			for(list<MultiGate::MultiGatePtr>::iterator i=highest->second.begin(); i!=highest->second.end(); i++)
-			{
-				(*i)->replaceInputs(highest->first.first, highest->first.second, newGate, occurrences, newElements);
-			}
-			for(list<MultiGate::occurrenceIterator>::iterator i = newElements.begin(); i!=newElements.end(); i++)
-			{
-				occurrencesOrdered.insert(*i);
-			}
-		}
-		else
-		{
-			occurrencesOrdered.insert(highest);
-		}
-	}
-	
-	removeMultiGates();
-	newOutput->resetFlagRecursive(Gate::MARKED);
-	occurrences.clear();
-	newOutput->addOccurrencesRecursive(occurrences, Gate::MULTI_OR);
-	newOutput->resetFlagRecursive(Gate::MARKED);
+	//a konkrét algoritmusok hívása:
+	//abc::Cmd_CommandExecute( pFrame, string("resyn").c_str() );
+	abc::Cmd_CommandExecute( pFrame, string("resyn2").c_str() );
+	//abc::Cmd_CommandExecute( pFrame, string("resyn2a").c_str() );
+	//abc::Cmd_CommandExecute( pFrame, string("resyn3").c_str() );
+	//abc::Cmd_CommandExecute( pFrame, string("compress").c_str() );
+	abc::Cmd_CommandExecute( pFrame, string("compress2").c_str() );
+	//abc::Cmd_CommandExecute( pFrame, string("choice").c_str() );
+	//abc::Cmd_CommandExecute( pFrame, string("choice2").c_str() );
+	//abc::Cmd_CommandExecute( pFrame, string("rwsat").c_str() );
+	//abc::Cmd_CommandExecute( pFrame, string("drwsat2").c_str() );
+	//abc::Cmd_CommandExecute( pFrame, string("share").c_str() );
+	//abc::Cmd_CommandExecute( pFrame, string("&sw").c_str() );
+	//abc::Cmd_CommandExecute( pFrame, string("&fx_").c_str() );
+	//abc::Cmd_CommandExecute( pFrame, string("&dc3").c_str() );
+	//abc::Cmd_CommandExecute( pFrame, string("&dc4").c_str() );
 
-	for(MultiGate::occurrenceIterator i=occurrences.begin(); i!=occurrences.end(); i++)
-	{
-		occurrencesOrdered.insert(i);
-	}
+#ifdef LOG_TIME
+	Logger::getLogger().setTime(Logger::FINISH_TIME);
+#endif
+	//TODO: Circuit újraépítése abc-beli AIG alapján
+#ifdef LOG_SIZE
+	Logger::getLogger().setData(Logger::FINAL_SIZE, pFrame->pNtkCur->nObjs);
+#endif
+#ifdef LOG_LEVEL
+	Logger::getLogger().setData(Logger::FINAL_LEVEL, pFrame->pNtkCur->LevelMax); //TODO
+#endif
 
-	while(!occurrencesOrdered.empty())
-	{
-		MultiGate::occurrenceIterator highest(*occurrencesOrdered.begin());
-		occurrencesOrdered.erase(occurrencesOrdered.begin());
 
-		updateOccurrences(highest);
-		if(occurrencesOrdered.empty() || highest->second.size()>=(*occurrencesOrdered.begin())->second.size())
-		{
-			if(highest->second.empty())
-			{
-				occurrencesOrdered.clear();	//ha üres a lista, az összes további is üres lenne, nem kell tovább menni
-				break;
-			}
-			
-			Gate::GatePtr newGate = make_shared<OrGate>(highest->first.first, highest->first.second);
-			list<MultiGate::occurrenceIterator> newElements;	//az új Gate-hez tartozó occurrenceIterator-ok
-			for(list<MultiGate::MultiGatePtr>::iterator i=highest->second.begin(); i!=highest->second.end(); i++)
-			{
-				(*i)->replaceInputs(highest->first.first, highest->first.second, newGate, occurrences, newElements);
-			}
-			for(list<MultiGate::occurrenceIterator>::iterator i = newElements.begin(); i!=newElements.end(); i++)
-			{
-				occurrencesOrdered.insert(*i);
-			}
-		}
-		else
-		{
-			occurrencesOrdered.insert(highest);
-		}
-	}
-	
-	removeMultiGates();
-	newOutput->resetFlagRecursive(Gate::MARKED);
 
-	output = newOutput;
-}*/
+	//abc::Cmd_CommandExecute( pFrame, string("print_stats").c_str() );
 
-void Circuit::updateOccurrences(MultiGate::occurrenceIterator iter)
-{
-	list<MultiGate::MultiGatePtr>& occList = iter->second;
-	if(occList.empty()){return;}
 
-	list<MultiGate::MultiGatePtr>::iterator listIter = occList.begin();
-	while(listIter != occList.end())
-	{
-		if((*listIter)->hasInput(iter->first.first) && (*listIter)->hasInput(iter->first.second))
-		{
-			listIter++;
-		}
-		else
-		{
-			listIter = occList.erase(listIter);
-		}
-	}
-}
-
-void Circuit::simplify()
-{
-	removeNotGates();
-	output = output->getMultiTwin();
-	output->resetFlagRecursive(Gate::TWIN | Gate::MULTI_INPUTS);
-	
-	output->simplifyRecursively();
-	output = output->getConstantFreeTwin();
-	output->resetFlagRecursive(Gate::MARKED | Gate::LEVEL | Gate::TWIN);	//TODO: átgondolni hogy nem kell-e level-t hamarabb resetelni
-
-	convertToSingleOptimized();
-}
-
-void Circuit::simplifyIterative()
-{
-	removeNotGates();
-	output = output->getMultiTwin();
-	output->resetFlagRecursive(Gate::TWIN | Gate::MULTI_INPUTS);
-	
-	unsigned int oldSize = getSize();
-	while(true)
-	{
-		output->simplifyRecursively();
-		output = output->getConstantFreeTwin();
-		output->resetFlagRecursive(Gate::MARKED | Gate::LEVEL | Gate::TWIN);	//TODO: átgondolni hogy nem kell-e level-t hamarabb resetelni
-		unsigned int newSize = getSize();
-		if(oldSize <= newSize){break;}
-	}
-	convertToSingleOptimized();
+	//AIG törlése:
+	Abc_FrameDeleteAllNetworks(pFrame);
+	//abc::Abc_Stop();
 }

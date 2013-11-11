@@ -13,6 +13,8 @@ private:
 	std::list<Link*>::iterator iteratorInInput;
 	std::list<Link*>::iterator iteratorInOutput;
 public:
+	static unsigned int constrCall, destrCall;
+
 	Link(Gate::GatePtr input, Gate* output);
 	~Link();
 

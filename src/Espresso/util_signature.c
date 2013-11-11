@@ -20,39 +20,33 @@
 #include <math.h>
 #include "espresso.h"
 #include "signature.h"
-/////////////////////////////////////
-// changed by alanmi - Dec 18, 2001
-//#include <sys/time.h>
-//#include <sys/resource.h>
-#include <time.h>
-/////////////////////////////////////
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <unistd.h>
 
 void
-set_time_limit(seconds)
-int seconds;
+set_time_limit(int seconds)
 {
-//	struct rlimit rlp_st, *rlp = &rlp_st;
-//	rlp->rlim_cur = seconds;
-//	setrlimit(RLIMIT_CPU, rlp);
+	struct rlimit rlp_st, *rlp = &rlp_st;
+	rlp->rlim_cur = seconds;
+	setrlimit(RLIMIT_CPU, rlp);
 }
 
-int
-print_cover(F,name)
-pcover F;
-char *name;
+void
+print_cover(pset_family F, char *name)
 {
 	pcube last, p;
 	printf("%s:\t %d\n",name,F->count);
 	foreach_set(F,last,p){
 		print_cube(espresso_out,p,"~0");
 	}
-	printf("\n\n",name);
+	/* printf("\n\n",name); AB? */
+	printf("\n\n");
 }
 
 /* sf_equal: Check equality of two set families */
 int
-sf_equal(F1,F2)
-pcover F1,F2;
+sf_equal(pset_family F1, pset_family F2)
 {
 	int i;
 	int count = F1->count;
@@ -62,8 +56,8 @@ pcover F1,F2;
 		return(FALSE);
 	}
 	
-	list1 = sf_sort(F1,descend);
-	list2 = sf_sort(F2,descend);
+	list1 = sf_sort(F1, (qsort_compare_func) descend);
+	list2 = sf_sort(F2, (qsort_compare_func) descend);
 
 	for(i = 0; i < count; i++){
 		if(!setp_equal(list1[i],list2[i])){
@@ -78,21 +72,20 @@ pcover F1,F2;
  * 	Initialized on first call. Prints current memory usage.
  */
 int
-mem_usage(name)
-char *name;
+mem_usage(char *name)
 {
 	static int memory_init;
 	int memory_current;
 	static int flag = 1;
 
 	if(flag){
-//		memory_init = sbrk(0);
 		memory_init = 0;
+		/* AB, sbrk is soooo BSD sbrk(0); */
 		flag = 0;
 	}
 
-//	memory_current = sbrk(0);
 	memory_current = 0;
+	/* AB, sbrk is soooo BSD sbrk(0); */
 
 	printf("Memory %s\t %d\n", name, memory_current - memory_init);
 
@@ -104,8 +97,7 @@ char *name;
  * 	Initialized on first call. Prints current time usage.
  */
 int
-time_usage(name)
-char *name;
+time_usage(char *name)
 {
 	static int time_init;
 	int time_current;
@@ -119,7 +111,7 @@ char *name;
 
 	time_current = ptime();
 
-	printf("%s\t %ld\n", name, (time_current - time_init)/1000);
+	printf("%s\t %ld\n", name, (time_current - time_init)/1000L);
 
 	return time_current;
 
@@ -127,9 +119,7 @@ char *name;
 
 /* s_totals : add time spent in the function and update call count */
 void
-s_totals(time,i)
-long time;
-int i;
+s_totals(long int time, int i)
 {
     time = ptime() - time;
     total_time[i] += time;
@@ -137,8 +127,7 @@ int i;
 }
 
 void
-s_runtime(total)
-long total;
+s_runtime(long int total)
 {
     int i;
     long temp;

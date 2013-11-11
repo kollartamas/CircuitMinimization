@@ -35,119 +35,130 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;$(ProjectDir)\Quine_McClusky;$(ProjectDir)\Espresso;$(ProjectDir)\Abc;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;$(ProjectDir)\Quine_McClusky;$(ProjectDir)\Espresso;$(ProjectDir)\Abc;</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;__STDC__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;VS2010;LOG_ALL;ABC_NAMESPACE=abc;ABC_DLL=ABC_DLLEXPORT;__STDC__;_DEBUG;_CONSOLE;(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <CompileAs>Default</CompileAs>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>abcd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;VS2010;LOG_ALL;ABC_NAMESPACE=abc;ABC_DLL=ABC_DLLEXPORT;__STDC__;NDEBUG;_CONSOLE;(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>abcr.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AndGate.cpp" />
     <ClCompile Include="BivariateGate.cpp" />
     <ClCompile Include="Circuit.cpp" />
+    <ClCompile Include="CircuitWithoutNotGate.cpp" />
     <ClCompile Include="DnfCircuit.cpp" />
-    <ClCompile Include="Espresso\black_white.c" />
-    <ClCompile Include="Espresso\canonical.c" />
-    <ClCompile Include="Espresso\cofactor.c" />
-    <ClCompile Include="Espresso\cols.c" />
-    <ClCompile Include="Espresso\compl.c" />
-    <ClCompile Include="Espresso\contain.c" />
-    <ClCompile Include="Espresso\cpu_time.c" />
-    <ClCompile Include="Espresso\cubestr.c" />
-    <ClCompile Include="Espresso\cvrin.c" />
-    <ClCompile Include="Espresso\cvrm.c" />
-    <ClCompile Include="Espresso\cvrmisc.c" />
-    <ClCompile Include="Espresso\cvrout.c" />
-    <ClCompile Include="Espresso\dominate.c" />
-    <ClCompile Include="Espresso\dummy.c" />
-    <ClCompile Include="Espresso\equiv.c" />
-    <ClCompile Include="Espresso\errtrap.c" />
-    <ClCompile Include="Espresso\espresso.c" />
-    <ClCompile Include="Espresso\essen.c" />
-    <ClCompile Include="Espresso\essentiality.c" />
-    <ClCompile Include="Espresso\exact.c" />
-    <ClCompile Include="Espresso\expand.c" />
-    <ClCompile Include="Espresso\gasp.c" />
-    <ClCompile Include="Espresso\getopt.c" />
-    <ClCompile Include="Espresso\gimpel.c" />
-    <ClCompile Include="Espresso\globals.c" />
-    <ClCompile Include="Espresso\hack.c" />
-    <ClCompile Include="Espresso\indep.c" />
-    <ClCompile Include="Espresso\irred.c" />
-    <ClCompile Include="Espresso\espresso_main.c" />
-    <ClCompile Include="Espresso\map.c" />
-    <ClCompile Include="Espresso\matrix.c" />
-    <ClCompile Include="Espresso\memccpy.c" />
-    <ClCompile Include="Espresso\memchr.c" />
-    <ClCompile Include="Espresso\memcmp.c" />
-    <ClCompile Include="Espresso\memcpy.c" />
-    <ClCompile Include="Espresso\memset.c" />
-    <ClCompile Include="Espresso\mincov.c" />
-    <ClCompile Include="Espresso\opo.c" />
-    <ClCompile Include="Espresso\pair.c" />
-    <ClCompile Include="Espresso\part.c" />
-    <ClCompile Include="Espresso\pipefork.c" />
-    <ClCompile Include="Espresso\primes.c" />
-    <ClCompile Include="Espresso\prtime.c" />
-    <ClCompile Include="Espresso\reduce.c" />
-    <ClCompile Include="Espresso\rows.c" />
-    <ClCompile Include="Espresso\set.c" />
-    <ClCompile Include="Espresso\setc.c" />
-    <ClCompile Include="Espresso\sharp.c" />
-    <ClCompile Include="Espresso\sigma.c" />
-    <ClCompile Include="Espresso\signature.c" />
-    <ClCompile Include="Espresso\signature_exact.c" />
-    <ClCompile Include="Espresso\sminterf.c" />
-    <ClCompile Include="Espresso\solution.c" />
-    <ClCompile Include="Espresso\sparse.c" />
-    <ClCompile Include="Espresso\st.c" />
-    <ClCompile Include="Espresso\strcat.c" />
-    <ClCompile Include="Espresso\strchr.c" />
-    <ClCompile Include="Espresso\strcmp.c" />
-    <ClCompile Include="Espresso\strcpy.c" />
-    <ClCompile Include="Espresso\strcspn.c" />
-    <ClCompile Include="Espresso\strerror.c" />
-    <ClCompile Include="Espresso\strlen.c" />
-    <ClCompile Include="Espresso\strncat.c" />
-    <ClCompile Include="Espresso\strncmp.c" />
-    <ClCompile Include="Espresso\strncpy.c" />
-    <ClCompile Include="Espresso\strpbrk.c" />
-    <ClCompile Include="Espresso\strrchr.c" />
-    <ClCompile Include="Espresso\strsav.c" />
-    <ClCompile Include="Espresso\strspn.c" />
-    <ClCompile Include="Espresso\strstr.c" />
-    <ClCompile Include="Espresso\strtok.c" />
-    <ClCompile Include="Espresso\tmpfile.c" />
-    <ClCompile Include="Espresso\unate.c" />
-    <ClCompile Include="Espresso\util_signature.c" />
-    <ClCompile Include="Espresso\verify.c" />
+    <ClCompile Include="Espresso_Win\black_white.c" />
+    <ClCompile Include="Espresso_Win\canonical.c" />
+    <ClCompile Include="Espresso_Win\cofactor.c" />
+    <ClCompile Include="Espresso_Win\cols.c" />
+    <ClCompile Include="Espresso_Win\compl.c" />
+    <ClCompile Include="Espresso_Win\contain.c" />
+    <ClCompile Include="Espresso_Win\cpu_time.c" />
+    <ClCompile Include="Espresso_Win\cubestr.c" />
+    <ClCompile Include="Espresso_Win\cvrin.c" />
+    <ClCompile Include="Espresso_Win\cvrm.c" />
+    <ClCompile Include="Espresso_Win\cvrmisc.c" />
+    <ClCompile Include="Espresso_Win\cvrout.c" />
+    <ClCompile Include="Espresso_Win\dominate.c" />
+    <ClCompile Include="Espresso_Win\dummy.c" />
+    <ClCompile Include="Espresso_Win\equiv.c" />
+    <ClCompile Include="Espresso_Win\errtrap.c" />
+    <ClCompile Include="Espresso_Win\espresso.c" />
+    <ClCompile Include="Espresso_Win\espresso_main.c" />
+    <ClCompile Include="Espresso_Win\essen.c" />
+    <ClCompile Include="Espresso_Win\essentiality.c" />
+    <ClCompile Include="Espresso_Win\exact.c" />
+    <ClCompile Include="Espresso_Win\expand.c" />
+    <ClCompile Include="Espresso_Win\gasp.c" />
+    <ClCompile Include="Espresso_Win\getopt.c" />
+    <ClCompile Include="Espresso_Win\gimpel.c" />
+    <ClCompile Include="Espresso_Win\globals.c" />
+    <ClCompile Include="Espresso_Win\hack.c" />
+    <ClCompile Include="Espresso_Win\indep.c" />
+    <ClCompile Include="Espresso_Win\irred.c" />
+    <ClCompile Include="Espresso_Win\map.c" />
+    <ClCompile Include="Espresso_Win\matrix.c" />
+    <ClCompile Include="Espresso_Win\memccpy.c" />
+    <ClCompile Include="Espresso_Win\memchr.c" />
+    <ClCompile Include="Espresso_Win\memcmp.c" />
+    <ClCompile Include="Espresso_Win\memcpy.c" />
+    <ClCompile Include="Espresso_Win\memset.c" />
+    <ClCompile Include="Espresso_Win\mincov.c" />
+    <ClCompile Include="Espresso_Win\opo.c" />
+    <ClCompile Include="Espresso_Win\pair.c" />
+    <ClCompile Include="Espresso_Win\part.c" />
+    <ClCompile Include="Espresso_Win\pipefork.c" />
+    <ClCompile Include="Espresso_Win\primes.c" />
+    <ClCompile Include="Espresso_Win\prtime.c" />
+    <ClCompile Include="Espresso_Win\reduce.c" />
+    <ClCompile Include="Espresso_Win\rows.c" />
+    <ClCompile Include="Espresso_Win\set.c" />
+    <ClCompile Include="Espresso_Win\setc.c" />
+    <ClCompile Include="Espresso_Win\sharp.c" />
+    <ClCompile Include="Espresso_Win\sigma.c" />
+    <ClCompile Include="Espresso_Win\signature.c" />
+    <ClCompile Include="Espresso_Win\signature_exact.c" />
+    <ClCompile Include="Espresso_Win\sminterf.c" />
+    <ClCompile Include="Espresso_Win\solution.c" />
+    <ClCompile Include="Espresso_Win\sparse.c" />
+    <ClCompile Include="Espresso_Win\st.c" />
+    <ClCompile Include="Espresso_Win\strcat.c" />
+    <ClCompile Include="Espresso_Win\strchr.c" />
+    <ClCompile Include="Espresso_Win\strcmp.c" />
+    <ClCompile Include="Espresso_Win\strcpy.c" />
+    <ClCompile Include="Espresso_Win\strcspn.c" />
+    <ClCompile Include="Espresso_Win\strerror.c" />
+    <ClCompile Include="Espresso_Win\strlen.c" />
+    <ClCompile Include="Espresso_Win\strncat.c" />
+    <ClCompile Include="Espresso_Win\strncmp.c" />
+    <ClCompile Include="Espresso_Win\strncpy.c" />
+    <ClCompile Include="Espresso_Win\strpbrk.c" />
+    <ClCompile Include="Espresso_Win\strrchr.c" />
+    <ClCompile Include="Espresso_Win\strsav.c" />
+    <ClCompile Include="Espresso_Win\strspn.c" />
+    <ClCompile Include="Espresso_Win\strtok.c" />
+    <ClCompile Include="Espresso_Win\tmpfile.c" />
+    <ClCompile Include="Espresso_Win\unate.c" />
+    <ClCompile Include="Espresso_Win\util_signature.c" />
+    <ClCompile Include="Espresso_Win\verify.c" />
     <ClCompile Include="FalseGate.cpp" />
     <ClCompile Include="Gate.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -165,25 +176,222 @@
     <ClCompile Include="TrueGate.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Abc\abc.h" />
+    <ClInclude Include="Abc\abcapis.h" />
+    <ClInclude Include="Abc\abcInt.h" />
+    <ClInclude Include="Abc\abc_global.h" />
+    <ClInclude Include="Abc\abs.h" />
+    <ClInclude Include="Abc\absRef.h" />
+    <ClInclude Include="Abc\absRefJ.h" />
+    <ClInclude Include="Abc\aig.h" />
+    <ClInclude Include="Abc\amap.h" />
+    <ClInclude Include="Abc\amapInt.h" />
+    <ClInclude Include="Abc\attr.h" />
+    <ClInclude Include="Abc\avl.h" />
+    <ClInclude Include="Abc\bar.h" />
+    <ClInclude Include="Abc\bblif.h" />
+    <ClInclude Include="Abc\bbr.h" />
+    <ClInclude Include="Abc\bdc.h" />
+    <ClInclude Include="Abc\bdcInt.h" />
+    <ClInclude Include="Abc\bmc.h" />
+    <ClInclude Include="Abc\bzlib.h" />
+    <ClInclude Include="Abc\bzlib_private.h" />
+    <ClInclude Include="Abc\cas.h" />
+    <ClInclude Include="Abc\cec.h" />
+    <ClInclude Include="Abc\cecInt.h" />
+    <ClInclude Include="Abc\cgt.h" />
+    <ClInclude Include="Abc\cgtInt.h" />
+    <ClInclude Include="Abc\cloud.h" />
+    <ClInclude Include="Abc\cmd.h" />
+    <ClInclude Include="Abc\cmdInt.h" />
+    <ClInclude Include="Abc\cnf.h" />
+    <ClInclude Include="Abc\cov.h" />
+    <ClInclude Include="Abc\covInt.h" />
+    <ClInclude Include="Abc\crc32.h" />
+    <ClInclude Include="Abc\csat_apis.h" />
+    <ClInclude Include="Abc\csw.h" />
+    <ClInclude Include="Abc\cswInt.h" />
+    <ClInclude Include="Abc\cudd.h" />
+    <ClInclude Include="Abc\cudd2.h" />
+    <ClInclude Include="Abc\cuddInt.h" />
+    <ClInclude Include="Abc\cut.h" />
+    <ClInclude Include="Abc\cutInt.h" />
+    <ClInclude Include="Abc\cutList.h" />
+    <ClInclude Include="Abc\dar.h" />
+    <ClInclude Include="Abc\darInt.h" />
+    <ClInclude Include="Abc\dau.h" />
+    <ClInclude Include="Abc\dauInt.h" />
+    <ClInclude Include="Abc\dch.h" />
+    <ClInclude Include="Abc\dchInt.h" />
+    <ClInclude Include="Abc\dec.h" />
+    <ClInclude Include="Abc\deco.h" />
+    <ClInclude Include="Abc\deflate.h" />
+    <ClInclude Include="Abc\dsd.h" />
+    <ClInclude Include="Abc\dsdInt.h" />
+    <ClInclude Include="Abc\epd.h" />
+    <ClInclude Include="Abc\espresso.h" />
+    <ClInclude Include="Abc\exp.h" />
+    <ClInclude Include="Abc\ext.h" />
+    <ClInclude Include="Abc\extra.h" />
+    <ClInclude Include="Abc\extraBdd.h" />
+    <ClInclude Include="Abc\fpga.h" />
+    <ClInclude Include="Abc\fpgaInt.h" />
+    <ClInclude Include="Abc\fra.h" />
+    <ClInclude Include="Abc\fraig.h" />
+    <ClInclude Include="Abc\fraigInt.h" />
+    <ClInclude Include="Abc\fsim.h" />
+    <ClInclude Include="Abc\fsimInt.h" />
+    <ClInclude Include="Abc\fxu.h" />
+    <ClInclude Include="Abc\fxuInt.h" />
+    <ClInclude Include="Abc\gia.h" />
+    <ClInclude Include="Abc\giaAig.h" />
+    <ClInclude Include="Abc\gzguts.h" />
+    <ClInclude Include="Abc\hash.h" />
+    <ClInclude Include="Abc\hashFlt.h" />
+    <ClInclude Include="Abc\hashGen.h" />
+    <ClInclude Include="Abc\hashInt.h" />
+    <ClInclude Include="Abc\hashPtr.h" />
+    <ClInclude Include="Abc\hop.h" />
+    <ClInclude Include="Abc\if.h" />
+    <ClInclude Include="Abc\inffast.h" />
+    <ClInclude Include="Abc\inffixed.h" />
+    <ClInclude Include="Abc\inflate.h" />
+    <ClInclude Include="Abc\inftrees.h" />
+    <ClInclude Include="Abc\int.h" />
+    <ClInclude Include="Abc\intInt.h" />
+    <ClInclude Include="Abc\ioa.h" />
+    <ClInclude Include="Abc\ioAbc.h" />
+    <ClInclude Include="Abc\ioInt.h" />
+    <ClInclude Include="Abc\ivy.h" />
+    <ClInclude Include="Abc\kit.h" />
+    <ClInclude Include="Abc\libhmetis.h" />
+    <ClInclude Include="Abc\literal.h" />
+    <ClInclude Include="Abc\llb.h" />
+    <ClInclude Include="Abc\llbInt.h" />
+    <ClInclude Include="Abc\lpk.h" />
+    <ClInclude Include="Abc\lpkInt.h" />
+    <ClInclude Include="Abc\lucky.h" />
+    <ClInclude Include="Abc\luckyInt.h" />
+    <ClInclude Include="Abc\m114p.h" />
+    <ClInclude Include="Abc\m114p_types.h" />
+    <ClInclude Include="Abc\main.h" />
+    <ClInclude Include="Abc\mainInt.h" />
+    <ClInclude Include="Abc\mapper.h" />
+    <ClInclude Include="Abc\mapperInt.h" />
+    <ClInclude Include="Abc\mem.h" />
+    <ClInclude Include="Abc\mem2.h" />
+    <ClInclude Include="Abc\mfs.h" />
+    <ClInclude Include="Abc\mfsInt.h" />
+    <ClInclude Include="Abc\mincov.h" />
+    <ClInclude Include="Abc\mincov_int.h" />
+    <ClInclude Include="Abc\miniaig.h" />
+    <ClInclude Include="Abc\mio.h" />
+    <ClInclude Include="Abc\mioInt.h" />
+    <ClInclude Include="Abc\mpm.h" />
+    <ClInclude Include="Abc\mpmInt.h" />
+    <ClInclude Include="Abc\mpmMig.h" />
+    <ClInclude Include="Abc\msat.h" />
+    <ClInclude Include="Abc\msatInt.h" />
+    <ClInclude Include="Abc\mtr.h" />
+    <ClInclude Include="Abc\mtrInt.h" />
+    <ClInclude Include="Abc\mvc.h" />
+    <ClInclude Include="Abc\nm.h" />
+    <ClInclude Include="Abc\nmInt.h" />
+    <ClInclude Include="Abc\ntlnwk.h" />
+    <ClInclude Include="Abc\nwk.h" />
+    <ClInclude Include="Abc\nwkMerge.h" />
+    <ClInclude Include="Abc\parse.h" />
+    <ClInclude Include="Abc\parseInt.h" />
+    <ClInclude Include="Abc\pdr.h" />
+    <ClInclude Include="Abc\pdrInt.h" />
+    <ClInclude Include="Abc\place_base.h" />
+    <ClInclude Include="Abc\place_gordian.h" />
+    <ClInclude Include="Abc\place_qpsolver.h" />
+    <ClInclude Include="Abc\pr.h" />
+    <ClInclude Include="Abc\reo.h" />
+    <ClInclude Include="Abc\res.h" />
+    <ClInclude Include="Abc\resInt.h" />
+    <ClInclude Include="Abc\retInt.h" />
+    <ClInclude Include="Abc\rpo.h" />
+    <ClInclude Include="Abc\rsb.h" />
+    <ClInclude Include="Abc\rsbInt.h" />
+    <ClInclude Include="Abc\rwr.h" />
+    <ClInclude Include="Abc\rwt.h" />
+    <ClInclude Include="Abc\saig.h" />
+    <ClInclude Include="Abc\satClause.h" />
+    <ClInclude Include="Abc\satMem.h" />
+    <ClInclude Include="Abc\satProof2.h" />
+    <ClInclude Include="Abc\satSolver.h" />
+    <ClInclude Include="Abc\satSolver2.h" />
+    <ClInclude Include="Abc\satStore.h" />
+    <ClInclude Include="Abc\satTruth.h" />
+    <ClInclude Include="Abc\satVec.h" />
+    <ClInclude Include="Abc\scl.h" />
+    <ClInclude Include="Abc\sclLib.h" />
+    <ClInclude Include="Abc\sclSize.h" />
+    <ClInclude Include="Abc\sclTime.h" />
+    <ClInclude Include="Abc\sfm.h" />
+    <ClInclude Include="Abc\sfmInt.h" />
+    <ClInclude Include="Abc\sim.h" />
+    <ClInclude Include="Abc\solver.h" />
+    <ClInclude Include="Abc\sparse.h" />
+    <ClInclude Include="Abc\sparse_int.h" />
+    <ClInclude Include="Abc\ssc.h" />
+    <ClInclude Include="Abc\sscInt.h" />
+    <ClInclude Include="Abc\ssw.h" />
+    <ClInclude Include="Abc\sswInt.h" />
+    <ClInclude Include="Abc\st.h" />
+    <ClInclude Include="Abc\stmm.h" />
+    <ClInclude Include="Abc\super.h" />
+    <ClInclude Include="Abc\superInt.h" />
+    <ClInclude Include="Abc\tim.h" />
+    <ClInclude Include="Abc\timInt.h" />
+    <ClInclude Include="Abc\trees.h" />
+    <ClInclude Include="Abc\utilCex.h" />
+    <ClInclude Include="Abc\utilMem.h" />
+    <ClInclude Include="Abc\utilNam.h" />
+    <ClInclude Include="Abc\utilSignal.h" />
+    <ClInclude Include="Abc\utilTruth.h" />
+    <ClInclude Include="Abc\util_hack.h" />
+    <ClInclude Include="Abc\util_old.h" />
+    <ClInclude Include="Abc\vec.h" />
+    <ClInclude Include="Abc\vecAtt.h" />
+    <ClInclude Include="Abc\vecBit.h" />
+    <ClInclude Include="Abc\vecFlt.h" />
+    <ClInclude Include="Abc\vecHash.h" />
+    <ClInclude Include="Abc\vecHsh.h" />
+    <ClInclude Include="Abc\vecInt.h" />
+    <ClInclude Include="Abc\vecMem.h" />
+    <ClInclude Include="Abc\vecPtr.h" />
+    <ClInclude Include="Abc\vecQue.h" />
+    <ClInclude Include="Abc\vecSet.h" />
+    <ClInclude Include="Abc\vecStr.h" />
+    <ClInclude Include="Abc\vecVec.h" />
+    <ClInclude Include="Abc\vecWec.h" />
+    <ClInclude Include="Abc\vecWrd.h" />
+    <ClInclude Include="Abc\ver.h" />
+    <ClInclude Include="Abc\zconf.h" />
+    <ClInclude Include="Abc\zlib.h" />
+    <ClInclude Include="Abc\zutil.h" />
     <ClInclude Include="AndGate.h" />
     <ClInclude Include="BivariateGate.h" />
     <ClInclude Include="Circuit.h" />
-    <ClInclude Include="CircuitException.h" />
+    <ClInclude Include="CircuitWithoutNotGate.h" />
     <ClInclude Include="DnfCircuit.h" />
-    <ClInclude Include="Espresso\ansi.h" />
-    <ClInclude Include="Espresso\copyright.h" />
-    <ClInclude Include="Espresso\errtrap.h" />
-    <ClInclude Include="Espresso\espresso.h" />
-    <ClInclude Include="Espresso\main.h" />
-    <ClInclude Include="Espresso\mincov.h" />
-    <ClInclude Include="Espresso\mincov_int.h" />
-    <ClInclude Include="Espresso\port.h" />
-    <ClInclude Include="Espresso\signature.h" />
-    <ClInclude Include="Espresso\sparse.h" />
-    <ClInclude Include="Espresso\sparse_int.h" />
-    <ClInclude Include="Espresso\st.h" />
-    <ClInclude Include="Espresso\stdlib.h" />
-    <ClInclude Include="Espresso\utility.h" />
+    <ClInclude Include="Espresso_Win\ansi.h" />
+    <ClInclude Include="Espresso_Win\copyright.h" />
+    <ClInclude Include="Espresso_Win\errtrap.h" />
+    <ClInclude Include="Espresso_Win\espresso.h" />
+    <ClInclude Include="Espresso_Win\espresso_main.h" />
+    <ClInclude Include="Espresso_Win\mincov.h" />
+    <ClInclude Include="Espresso_Win\mincov_int.h" />
+    <ClInclude Include="Espresso_Win\port.h" />
+    <ClInclude Include="Espresso_Win\signature.h" />
+    <ClInclude Include="Espresso_Win\sparse.h" />
+    <ClInclude Include="Espresso_Win\sparse_int.h" />
+    <ClInclude Include="Espresso_Win\st.h" />
+    <ClInclude Include="Espresso_Win\stdlib.h" />
+    <ClInclude Include="Espresso_Win\utility.h" />
     <ClInclude Include="FalseGate.h" />
     <ClInclude Include="Gate.h" />
     <ClInclude Include="Input.h" />

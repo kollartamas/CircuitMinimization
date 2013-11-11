@@ -18,12 +18,12 @@
 static long start_time; /* yuk */
 
 pcover
-signature(F1, D1, R1)
-pcover F1, D1, R1;
+signature(pset_family F1, pset_family D1, pset_family R1)
 {
 	pcover ESC,ESSet,ESSENTIAL;
 	pcover F,D,R;
 	pcube last,p;
+	struct sigaction xcpu_action;
 
 	/* make scratch copy */
 	F = sf_save(F1);
@@ -34,8 +34,10 @@ pcover F1, D1, R1;
 	R = unravel(R, cube.num_binary_vars);
 	R = sf_contain(R);
 
-//	signal(SIGXCPU,cleanup);
-	signal(SIGINT,cleanup);
+	xcpu_action.sa_handler = (void (*)()) cleanup;
+	sigemptyset (&xcpu_action.sa_mask);
+	xcpu_action.sa_flags = 0;
+	sigaction (SIGXCPU, &xcpu_action, NULL);
 	start_time = ptime();
 
 	/* Initial expand and irredundant */
@@ -79,8 +81,7 @@ pcover F1, D1, R1;
 
 
 pcover
-generate_primes(F,R)
-pcover F,R;
+generate_primes(pset_family F, pset_family R)
 {
 	pcube c,r,lastc,b,lastb;
 	pcover BB,PRIMES;
@@ -141,7 +142,7 @@ pcover F,R;
 }
 
 void
-cleanup()
+cleanup(void)
 {
 	s_runtime(ptime() - start_time);	
 	printf("CPU Limit Exceeded\n");

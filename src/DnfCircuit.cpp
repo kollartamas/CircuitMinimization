@@ -5,8 +5,9 @@
 #include "OrGate.h"
 #include "AndGate.h"
 #include "NotGate.h"
-#include "Quine_McClusky\ImplicantChart.h"
+#include "ImplicantChart.h"
 #include "PlaFormatException.h"
+#include "Logger.h"
 
 #include <cstdio>
 
@@ -14,13 +15,13 @@ extern "C" int espresso_main(FILE* input, FILE* output, int argc=0, char **argv=
 
 using namespace std;
 
-DnfCircuit::DnfCircuit(list<Implicant>& implicantList) : Circuit(implicantList.size() ? (implicantList.front().numOfVariables) : 0)
+DnfCircuit::DnfCircuit(list<Implicant>& implicantList) : CircuitWithoutNotGate(implicantList.size() ? (implicantList.front().numOfVariables) : 0)
 {
 	output = buildFromImplicantList(implicantList);
 }
 
 
-DnfCircuit::DnfCircuit(unsigned int variables, unsigned int clauses) : Circuit(variables)
+DnfCircuit::DnfCircuit(unsigned int variables, unsigned int clauses) : CircuitWithoutNotGate(variables)
 {
 	list<Implicant> implicantList;
 	for(unsigned int i=0; i<clauses; i++)
@@ -31,7 +32,7 @@ DnfCircuit::DnfCircuit(unsigned int variables, unsigned int clauses) : Circuit(v
 		{
 			if(rand()>dontCareRate)
 			{
-				values[j]=Implicant::TRUE + rand()%2;	//ha rand==0 TRUE, rand==1 FALSE
+				values[j]=Implicant::TRUE + rand()%2;	//ha rand==0 TRUE_GATE, rand==1 FALSE_GATE
 			}
 		}
 		implicantList.push_back(Implicant(values));
@@ -39,23 +40,28 @@ DnfCircuit::DnfCircuit(unsigned int variables, unsigned int clauses) : Circuit(v
 	output = buildFromImplicantList(implicantList);
 }
 
-DnfCircuit::DnfCircuit(DnfCircuit& other):Circuit(other)
+DnfCircuit::DnfCircuit(DnfCircuit& other):CircuitWithoutNotGate(other)
 {}
 
-DnfCircuit::DnfCircuit(Circuit& other): Circuit(other)
+DnfCircuit::DnfCircuit(Circuit& other): CircuitWithoutNotGate(other)
 {
 	this->removeNotGates();
 	this->toDnf();
 }
 
-Gate::GatePtr DnfCircuit::buildFromImplicantList(std::list<Implicant>& implicantList)
+DnfCircuit::DnfCircuit(CircuitWithoutNotGate& other): CircuitWithoutNotGate(other)
+{
+	this->toDnf();
+}
+
+Gate::GatePtr DnfCircuit::buildFromImplicantList(const std::list<Implicant>& implicantList)
 {
 	if(implicantList.empty())
 	{
 		return make_shared<FalseGate>();
 	}
 
-	list<Implicant>::iterator iter(implicantList.begin());
+	list<Implicant>::const_iterator iter(implicantList.begin());
 	Gate::GatePtr topClause(buildFromImplicant(*iter));
 	++iter;
 	for(; iter!=implicantList.end(); ++iter)
@@ -65,7 +71,7 @@ Gate::GatePtr DnfCircuit::buildFromImplicantList(std::list<Implicant>& implicant
 	return topClause;
 }
 
-Gate::GatePtr DnfCircuit::buildFromImplicant(Implicant& implicant)
+Gate::GatePtr DnfCircuit::buildFromImplicant(const Implicant& implicant)
 {
 	if(implicant.numOfVariables==implicant.numOfDontCares)
 	{
@@ -91,7 +97,7 @@ Gate::GatePtr DnfCircuit::buildFromImplicant(Implicant& implicant)
 			default:
 				continue;
 		}
-		break;			//TRUE/FALSE esetén break(a ciklusból), különben continue;
+		break;			//TRUE_GATE/FALSE_GATE esetén break(a ciklusból), különben continue;
 	}
 	i++;
 	//hozzákapcsoljuk a többi literált is:
@@ -117,7 +123,11 @@ void DnfCircuit::listClausesInSubgraph(Gate& rootGate, list<Gate*>& clauseList)
 {
 	if(rootGate.type == Gate::OR)
 	{
+#ifdef VS2010
 		for each(Link* input in rootGate.inputs)
+#else
+		for(Link* input : rootGate.inputs)
+#endif
 		{
 			listClausesInSubgraph(*input->getInput(), clauseList);
 		}
@@ -150,36 +160,64 @@ void DnfCircuit::collectInputsFromSubgraph(Gate& rootGate, std::vector<int>& cur
 		case Gate::NOT:
 			currentValues[((Input*)(rootGate.inputs.front()->getInput().get()))->id] &= Implicant::FALSE;
 			break;
-		case Gate::TRUE:
+		case Gate::TRUE_GATE:
 			break;
-		case Gate::FALSE:
+		case Gate::FALSE_GATE:
 			if(currentValues.empty()){currentValues.push_back(Implicant::INVALID);}
 			else{currentValues[0]=Implicant::INVALID;}
 			break;
 		default:
-			throw exception("DNF error");
+			throw runtime_error("DNF error");
 	}
 }
 
 void DnfCircuit::minimizeQuineMcClusky()
 {
+	
+#ifdef LOG_MAX_GATENUM
+	Logger::getLogger().setData(Logger::STARTING_GATENUM, Gate::constrCall-Gate::destrCall);
+#endif
+#ifdef LOG_SIZE
+	Logger::getLogger().setData(Logger::DNF_SIZE, getSize());
+#endif
+#ifdef LOG_TIME
+	Logger::getLogger().setTime(Logger::DNF_TIME);
+	Logger::getLogger().updateTimer();
+#endif
+
 	ImplicantChart implicantChart;
+	//list<Implicant> mintermList(getMintermList());	//move constructor
+#ifdef VS2010
 	for each(Implicant implicant in getMintermList())
+#else
+	for(Implicant& implicant : getMintermList())
+#endif
 	{
 		implicantChart.addMinterm(implicant, true);
 	}
 	//output->deleteRecursively();
 	setOutput( buildFromImplicantList(implicantChart.getMinimizedDNF()) );
+
+#ifdef LOG_TIME
+	Logger::getLogger().setTime(Logger::FINISH_TIME);
+#endif
+#ifdef LOG_SIZE
+	Logger::getLogger().setData(Logger::FINAL_SIZE, getSize());
+#endif
+#ifdef LOG_LEVEL
+	Logger::getLogger().setData(Logger::FINAL_LEVEL, getLevel());
+#endif
 }
 
 list<Implicant> DnfCircuit::getMintermList()
 {
 	list<Implicant> mintermList;
-	for each(Implicant implicant in getImplicantList())
+	list<Implicant> implicantList(getImplicantList());
+	for(list<Implicant>::iterator implicant(implicantList.begin()); implicant!=implicantList.end(); ++implicant)
 	{
-		if(implicant.valid)	//ha azonosan hamis, akkor egyszerûen elhagyhatjuk
+		if(implicant->valid)	//ha azonosan hamis, akkor egyszerûen elhagyhatjuk
 		{
-			list<Implicant> listToAdd(implicant.toMintermList());
+			list<Implicant> listToAdd(implicant->toMintermList());
 			mintermList.splice(mintermList.end(), listToAdd);
 		}
 	}
@@ -191,7 +229,11 @@ list<Implicant> DnfCircuit::getImplicantList()
 	list<Gate*> clauseList;
 	listClausesInSubgraph(*output, clauseList);
 	list<Implicant> implicantList;
+#ifdef VS2010
 	for each(Gate* clause in clauseList)
+#else
+	for(Gate* clause : clauseList)
+#endif
 	{
 		Implicant newImplicant(getImplicantFromSubgraph(*clause));
 		if(newImplicant.valid)
@@ -202,21 +244,28 @@ list<Implicant> DnfCircuit::getImplicantList()
 	return implicantList;
 }
 
-FILE* DnfCircuit::toPlaFormat()	//throw (PlaFormatException)
+FILE* DnfCircuit::toPlaFormat()	throw (PlaFormatException)
 {
 
 	list<Implicant> impList = getImplicantList();
 	if (impList.empty()) {throw PlaFormatException();}
 	FILE* plaFile = fopen("input.tmp", "wb+");
 	fprintf(plaFile, ".i %u .o 1\n", /*impList.empty() ? 0 :*/ impList.front().numOfVariables );
-	for each(Implicant i in impList)
+#ifdef VS2010
+	for each(const Implicant& i in impList)
+#else
+	for(Implicant& i : impList)
+#endif
 	{
 		if(!i.valid)
 		{
 			continue;
 		}
-
+#ifdef VS2010
 		for each(int j in i.values)
+#else
+		for(int j : i.values)
+#endif
 		{
 			switch (j)
 			{
@@ -267,13 +316,25 @@ void DnfCircuit::readPlaFormat(FILE* plaFile)
 	}
 }
 
-
 void DnfCircuit::minimizeEspresso()
 {
 	try
 	{
+		
+#ifdef LOG_MAX_GATENUM
+	Logger::getLogger().setData(Logger::STARTING_GATENUM, Gate::constrCall-Gate::destrCall);
+#endif
+#ifdef LOG_SIZE
+		Logger::getLogger().setData(Logger::DNF_SIZE, getSize());
+#endif
+#ifdef LOG_TIME
+		Logger::getLogger().setTime(Logger::DNF_TIME);
+#endif
 		FILE* inputFile = this->toPlaFormat();
 		FILE* outputFile = fopen("result.tmp", "wb+");
+#ifdef LOG_TIME
+		Logger::getLogger().updateTimer();
+#endif
 		espresso_main(inputFile, outputFile);
 		rewind(outputFile);
 		this->readPlaFormat(outputFile);
@@ -286,4 +347,14 @@ void DnfCircuit::minimizeEspresso()
 	{
 		output = make_shared<FalseGate>();
 	}
+	
+#ifdef LOG_TIME
+		Logger::getLogger().setTime(Logger::FINISH_TIME);
+#endif
+#ifdef LOG_SIZE
+		Logger::getLogger().setData(Logger::FINAL_SIZE, getSize());
+#endif
+#ifdef LOG_LEVEL
+		Logger::getLogger().setData(Logger::FINAL_LEVEL, getLevel());
+#endif
 }

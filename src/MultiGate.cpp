@@ -6,7 +6,11 @@ using namespace std;
 
 MultiGate::MultiGate(set<GatePtr>& inputSet)
 {
+#ifdef VS2010
 	for each(GatePtr gate in inputSet)
+#else
+	for(GatePtr gate : inputSet)
+#endif
 	{
 		new Link(gate, this);
 		inputIndex[gate] = --inputs.end();		//TODO: átírni hogy iterátort használjon (konstans komplexitás)
@@ -18,6 +22,28 @@ MultiGate::~MultiGate()
 	while(!inputs.empty())
 	{
 		delete inputs.front();	//ez egyúttal törli a list-bõl is
+	}
+}
+
+unsigned int MultiGate::getSize()
+{
+	if(isFlagged(MARKED))
+	{
+		return 0;
+	}
+	else
+	{
+		unsigned int size = -1;
+#ifdef VS2010
+		for each(Link* input in inputs)
+#else
+		for(Link* input : inputs)
+#endif
+		{
+			(++size) += input->getInput()->getSize();
+		}
+		setFlag(MARKED);
+		return size;
 	}
 }
 
@@ -222,8 +248,11 @@ void MultiGate::replaceInputRecursively(GatePtr original, GatePtr newGate)
 			removeInput(original);	//TODO: egy hatékonyabb overloaddal felhasználni az iteratort
 			addInput(newGate);	
 		}
-
+#ifdef VS2010
 		for each(Link* inputLink in inputs)
+#else
+		for(Link* inputLink : inputs)
+#endif
 		{
 			if(inputLink->getInput()->getLevel() > original->getLevel())	//csak azok a kapuk tartalmazhatják original-t, amelyek szintje nagyobb
 			{	//bár a törlések miatt a level-ben tárol érték késõbb eltérhet a valóstól, a < és > relációk nem változnak
@@ -257,11 +286,13 @@ void MultiGate::replaceInputRecursively(GatePtr original, GatePtr newGate)
 }*/
 
 //ideiglenes, hogy ne abstract class legyen
-void MultiGate::addToStringInfix(std::string& dest){throw exception("multi to string");}
+void MultiGate::addToStringInfix(std::string& dest){throw runtime_error("multi to string");}
 void MultiGate::addToStringPrefix(std::string& dest){}
 void MultiGate::addToStringPostfix(std::string& dest){}
 unsigned int MultiGate::getInfixLength(){return 0;}
 unsigned int MultiGate::getPrefixLength(){return 0;}
+const std::set<Implicant>& MultiGate::getDnf(unsigned int numOfVariables){throw runtime_error("multi to dnf");}
 Gate::GatePtr MultiGate::getNegatedTwin(){return NULL;}
 Gate::GatePtr MultiGate::getCopyTwin(){return NULL;}
-const std::set<Gate*>& MultiGate::getMultiInputs(){return multiInputs;} 
+abc::Abc_Obj_t* MultiGate::getAbcNode(abc::Abc_Ntk_t* network){return NULL;}
+//const std::set<Gate*>& MultiGate::getMultiInputs(){return multiInputs;} 

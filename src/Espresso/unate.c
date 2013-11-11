@@ -4,12 +4,11 @@
 
 #include "espresso.h"
 
-static pset_family abs_covered();
-static pset_family abs_covered_many();
-static int abs_select_restricted();
+static pset_family abs_covered(pset_family A, register int pick);
+static pset_family abs_covered_many(pset_family A, register pset pick_set);
+static int abs_select_restricted(pset_family A, pset restrict);
 
-pcover map_cover_to_unate(T)
-pcube *T;
+pcover map_cover_to_unate(pset *T)
 {
     register unsigned int word_test, word_set, bit_test, bit_set;
     register pcube p, pA;
@@ -49,8 +48,7 @@ pcube *T;
     return A;
 }
 
-pcover map_unate_to_cover(A)
-pset_family A;
+pcover map_unate_to_cover(pset_family A)
 {
     register int i, ncol, lp;
     register pcube p, pB;
@@ -102,8 +100,7 @@ pset_family A;
  *  unate_compl
  */
 
-pset_family unate_compl(A)
-pset_family A;
+pset_family unate_compl(pset_family A)
 {
     register pset p, last;
 
@@ -126,8 +123,8 @@ pset_family A;
 /*
  *  Assume SIZE(p) records the size of each set
  */
-pset_family unate_complement(A)
-pset_family A;			/* disposes of A */
+pset_family unate_complement(pset_family A)
+              			/* disposes of A */
 {
     pset_family Abar;
     register pset p, p1, restrict;
@@ -211,8 +208,7 @@ pset_family A;			/* disposes of A */
     return Abar;
 }
 
-pset_family exact_minimum_cover(T)
-IN pset_family T;
+pset_family exact_minimum_cover(pset_family T)
 {
     register pset p, last, p1;
     register int i, n;
@@ -290,9 +286,7 @@ IN pset_family T;
 
 #define MAGIC 500               /* save 500 cubes before containment */
 
-pset_family unate_intersect(A, B, largest_only)
-pset_family A, B;
-bool largest_only;
+pset_family unate_intersect(pset_family A, pset_family B, int largest_only)
 {
     register pset pi, pj, lasti, lastj, pt;
     pset_family T, Tsave;
@@ -356,9 +350,7 @@ bool largest_only;
  *  create a new matrix which is only those rows which are still uncovered
  */
 static pset_family
-abs_covered(A, pick)
-pset_family A;
-register int pick;
+abs_covered(pset_family A, register int pick)
 {
     register pset last, p, pdest;
     register pset_family Aprime;
@@ -380,9 +372,7 @@ register int pick;
  *  create a new matrix which is only those rows which are still uncovered
  */
 static pset_family
-abs_covered_many(A, pick_set)
-pset_family A;
-register pset pick_set;
+abs_covered_many(pset_family A, register pset pick_set)
 {
     register pset last, p, pdest;
     register pset_family Aprime;
@@ -405,9 +395,7 @@ register pset pick_set;
  *  1 / (set_ord(p) - 1).
  */
 static int
-abs_select_restricted(A, restrict)
-pset_family A;
-pset restrict;
+abs_select_restricted(pset_family A, pset restrict)
 {
     register int i, best_var, best_count, *count;
 
